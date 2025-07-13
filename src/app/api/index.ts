@@ -1,6 +1,6 @@
 /**
  * ClinicX API Layer - Main Export
- * 
+ *
  * This barrel export provides access to all API services, models, and utilities.
  * Import from '@app/api' in your components and services.
  */
@@ -88,12 +88,12 @@ export interface ClinicXApiServices {
 
 /**
  * Provider function for easier module setup
- * 
+ *
  * @example
  * ```typescript
  * // In your app.config.ts
  * import { provideClinicXApi } from '@app/api';
- * 
+ *
  * export const appConfig: ApplicationConfig = {
  *   providers: [
  *     provideExperimentalResource(),
@@ -153,7 +153,7 @@ export function isApiError(error: any): error is import('./core/http-error-handl
 
 /**
  * Utility function to handle API errors in components
- * 
+ *
  * @example
  * ```typescript
  * handleApiError(error: any) {
@@ -176,4 +176,3 @@ export { AppointmentStatus } from './appointments/appointments.models';
 export { TreatmentStatus } from './treatments/treatments.models';
 export { LabRequestStatus } from './lab-requests/lab-requests.models';
 export { InvoiceStatus } from './invoices/invoices.models';
-export { DocumentType } from './documents/documents.models';

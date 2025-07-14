@@ -1,12 +1,11 @@
 import { Page } from '../../core';
-import { DocumentSummaryDto } from '../shared.models';
 
 /**
  * Re-export shared document models for convenience.
  */
-export { DocumentSummaryDto };
+export type { DocumentSummaryDto } from '../shared.models';
 
 /**
  * Paginated documents response.
  */
-export type PageDocumentSummaryDto = Page<DocumentSummaryDto>;
+export type PageDocumentSummaryDto = Page<import('../shared.models').DocumentSummaryDto>;

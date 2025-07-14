@@ -62,7 +62,9 @@ export class StaffService {
     params?: PaginationParams
   ): Observable<PageStaffDto> {
     const httpParams = this.buildPaginationParams(params);
-    return this.api.post<PageStaffDto>(`${this.basePath}/search/advanced`, criteria, httpParams);
+    // POST requests with pagination params should include them in the URL
+    const url = httpParams.toString() ? `${this.basePath}/search/advanced?${httpParams.toString()}` : `${this.basePath}/search/advanced`;
+    return this.api.post<PageStaffDto>(url, criteria);
   }
 
   /**

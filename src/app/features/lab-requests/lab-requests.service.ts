@@ -45,7 +45,8 @@ export class LabRequestsService {
    */
   updateLabRequestStatus(id: string, status: string): Observable<LabRequestDto> {
     const params = new HttpParams().set('status', status);
-    return this.api.put<LabRequestDto>(`${this.basePath}/${id}/status`, null, params);
+    const url = `${this.basePath}/${id}/status?${params.toString()}`;
+    return this.api.put<LabRequestDto>(url, null);
   }
 
   /**

@@ -56,10 +56,8 @@ export class DentalChartsService {
       params = params.set('notes', notes);
     }
     
-    return this.api.put<ToothDto>(
-      `${this.basePath}/patient/${patientId}/tooth/${toothNumber}`,
-      null,
-      params
-    );
+    // Since the API expects query parameters, we need to append them to the URL
+    const url = `${this.basePath}/patient/${patientId}/tooth/${toothNumber}?${params.toString()}`;
+    return this.api.put<ToothDto>(url, null);
   }
 }

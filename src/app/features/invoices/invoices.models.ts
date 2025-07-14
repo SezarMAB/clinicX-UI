@@ -1,5 +1,5 @@
 import { Page } from '../../core';
-import { FinancialRecordDto, PaymentInstallmentDto, InvoiceStatus } from '../shared.models';
+import { InvoiceStatus } from '../shared.models';
 
 /**
  * Request to create a new invoice item.
@@ -50,9 +50,10 @@ export interface PaymentCreateRequest {
 /**
  * Re-export shared financial models for convenience.
  */
-export { FinancialRecordDto, PaymentInstallmentDto, InvoiceStatus };
+export type { FinancialRecordDto, PaymentInstallmentDto } from '../shared.models';
+export { InvoiceStatus };
 
 /**
  * Paginated financial records response.
  */
-export type PageFinancialRecordDto = Page<FinancialRecordDto>;
+export type PageFinancialRecordDto = Page<import('../shared.models').FinancialRecordDto>;

@@ -71,7 +71,9 @@ export class TreatmentMaterialsService {
     params?: PaginationParams
   ): Observable<PageTreatmentMaterialDto> {
     const httpParams = this.buildPaginationParams(params);
-    return this.api.post<PageTreatmentMaterialDto>(`${this.basePath}/search`, criteria, httpParams);
+    // POST requests with pagination params should include them in the URL
+    const url = httpParams.toString() ? `${this.basePath}/search?${httpParams.toString()}` : `${this.basePath}/search`;
+    return this.api.post<PageTreatmentMaterialDto>(url, criteria);
   }
 
   /**

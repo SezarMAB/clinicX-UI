@@ -1,87 +1,102 @@
-### 🎯 PROMPT — “Generate Angular 20 API + Models From `openapi.json`”
+You are a senior Angular 20 architect.
 
-You are an expert code-gen assistant.  
-Based on the OpenAPI 3.0 document found at `src/resources/openapi.json`, produce idiomatic Angular 20 TypeScript that meets the guidelines below.
+### Input
+1. The file {{src/resources/openapi.json}} – a complete OpenAPI-3.1 definition containing ±85 REST endpoints for a dental-clinic back end.
 
----
+### Goal
+Generate a **production-ready Angular workspace** that follows the architecture described below.  
+The generated code must compile with `ng build --configuration=production --strict` on Angular 20.
 
-#### 1  Code-organisation rules  
+### High-level requirements
+1. **Thin ApiService wrapper** (shown below).
+2. One **feature‐focused service (+ DTO models + barrel)** per endpoint group (Appointments, Patients, …).
+3. Core folder for cross-cutting concerns (auth interceptor, global error handler, pagination interfaces, constants, utilities).
+4. All code strictly typed, padded with **JSDoc** and exported through `index.ts` barrels.
+5. No unused identifiers; follow Angular 20 style guide and ESLint rules.
+6. Include unit tests with **HttpTestingController** for every generated method.
 
-| Concern | Requirement |
-|---------|-------------|
-|base layer| Create a thin ApiService base layer|
-| **Grouping** | Use the `tags` array on each path operation. Everything that shares the same tag lives in *one* folder/module. |
-| **File layout** | *For each tag* create:  <br>• `<tag>/<tag>.models.ts` → every schema used by that group  <br>• `<tag>/<tag>.resource.ts` → all **GET** endpoints via `httpResource()` (one per endpoint)  <br>• `<tag>/<tag>.api.service.ts` → all mutating endpoints (**POST / PUT / PATCH / DELETE**) implemented with `HttpClient` |
-| **Barrel export** | Generate an `index.ts` inside each tag folder that re-exports the models and service. |
+### Folder layout to emit
+```
 
-```typescript
+projects/
+└─clinic-frontend/
+├─src/app/
+│  ├─core/
+│  │  ├─api/
+│  │  │  ├─api.service.ts        # ← thin wrapper
+│  │  │  ├─api.config.ts         # injection token + default cfg
+│  │  │  └─interceptors/
+│  │  │     ├─auth.interceptor.ts
+│  │  │     └─error.interceptor.ts
+│  │  ├─models/                   # shared, non-feature-specific
+│  │  │  ├─error.model.ts
+│  │  │  └─pagination.model.ts
+│  │  └─index.ts
+│  ├─features/
+│  │  ├─appointments/
+│  │  │  ├─appointments.service.ts
+│  │  │  ├─appointments.models.ts
+│  │  │  └─index.ts
+│  │  ├─patients/
+│  │  │  └─… (analogous)
+│  │  └─… one folder per tag in the OpenAPI spec
+│  └─shared/                      # pipes, directives, UI bits
+└─…
+
+````
+
+### Thin ApiService – must match exactly
+```ts
+import { inject, Inject, Injectable, Signal } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { httpResource } from '@angular/common/http';
+import { API_CONFIG, ApiConfig } from './api.config';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  constructor(private http: HttpClient, @Inject(API_CONFIG) private cfg: ApiConfig) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(API_CONFIG) private cfg: ApiConfig
+  ) {}
 
+  /** Signal-based GET that auto-refreshes when inputs change. */
   apiGetResource<T>(
     path: string | Signal<string>,
     params?: Signal<HttpParams | undefined>
   ) {
     const cfg = inject<ApiConfig>(API_CONFIG);
-
     return httpResource<T>(() => ({
       url: `${cfg.baseUrl}${typeof path === 'string' ? path : path()}`,
       method: 'GET',
       params: params?.()
     }));
   }
-  
-  get<T>(url: string, params?: HttpParams): Observable<T> {
+
+  get<T>(url: string, params?: HttpParams) {
     return this.http.get<T>(`${this.cfg.baseUrl}${url}`, { params });
   }
-  post<T>(url: string, body: unknown): Observable<T> {
+  post<T>(url: string, body: unknown) {
     return this.http.post<T>(`${this.cfg.baseUrl}${url}`, body);
   }
-  put<T>(url: string, body: unknown): Observable<T> {
+  put<T>(url: string, body: unknown) {
     return this.http.put<T>(`${this.cfg.baseUrl}${url}`, body);
   }
-  delete<T>(url: string): Observable<T> {
+  delete<T>(url: string) {
     return this.http.delete<T>(`${this.cfg.baseUrl}${url}`);
   }
 }
-```
----
-
-#### 2  HTTP style guide  
-
-| Operation type | Use | Notes |
-|----------------|-----|-------|
-| `GET` (and `HEAD`) | `httpResource(() => '/url')` | GET method is **implicit**. Inject no body. Return type is the *resolved* payload (not `HttpResponse`). |
-| `POST`, `PUT`, `PATCH`, `DELETE` | `HttpClient` methods inside the `<tag>.api.service.ts` | Return typed `Observable<TResponse>`; include `{ observe:'body' }` by default. |
-
-*Never* mix the two approaches in the same function.
-
----
-
-#### 3  Models & typing  
-* shared models go into `src/app/api/shared/`, for Error, Pagination, etc.
-* Translate every *schema component* referenced by the tag’s operations into a **TypeScript `interface`** (or `type` when it would read better).  
-* Preserve property names as-is (`snake_case` → `snake_case`).  
-* Inline enums become `type` unions (`export type Status = 'pending' | 'done'`).  
-* Re-use definitions across groups by importing from the first group that declared them.  
-* Add `readonly` where the API marks a property as `readOnly:true`.
-
----
-
-#### 4  Best-practice details  
-
-* Decorate each service with `@Injectable({ providedIn:'root' })`.  
-* Constructor inject only `HttpClient` and nothing else.  
-* Add one method per endpoint, named in **verb-object** form, e.g. `createUser`, `updateInvoice`, `deleteTag`.  
-* Wrap every mutating call in `firstValueFrom()` **inside** the service if the OpenAPI spec marks the response as non-streaming.  
-* Use generics for paged endpoints:  
-  ```ts
-  export interface Page<T> { items:T[]; total:number; page:number; size:number; }
 ````
 
-* Include a short **JSDoc** above each method with the operationId and summary from the spec.
-* Do **not** add additional business logic, state management, or UI code.
+### Code-generation rules
+
+* **Derive one service file per OpenAPI “tag”**; include only that tag’s paths inside it.
+* Expose overloads exactly matching each endpoint’s HTTP verb, path params, query params, and request body schema.
+* Convert JSON Schema types to TypeScript **interfaces** in `*.models.ts`.
+* Each service must depend **only on `ApiService`**; no direct `HttpClient` use.
+* Add `appointments.service.spec.ts`-style tests for every generated service.
+* Export the public surface of each feature folder with an `index.ts`.
+* Generate a root `README.md` with build, test, and serve commands.
+
+
+
 

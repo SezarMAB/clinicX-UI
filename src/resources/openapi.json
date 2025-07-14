@@ -16,36 +16,48 @@
       "description": "Operations related to appointment management"
     },
     {
-      "name": "Patients",
-      "description": "Operations related to patient management"
-    },
-    {
       "name": "Treatments",
       "description": "Operations related to patient treatment management"
+    },
+    {
+      "name": "Clinic Info",
+      "description": "Operations related to clinic information management"
     },
     {
       "name": "Notes",
       "description": "Operations related to patient note management"
     },
     {
-      "name": "Dental Charts",
-      "description": "Operations related to dental chart and tooth condition management"
-    },
-    {
       "name": "Financial Summaries",
       "description": "Operations related to patient financial summary management"
-    },
-    {
-      "name": "Lab Requests",
-      "description": "Operations related to laboratory request management"
     },
     {
       "name": "Invoices",
       "description": "Operations related to invoice and payment management"
     },
     {
+      "name": "Patients",
+      "description": "Operations related to patient management"
+    },
+    {
+      "name": "Staff",
+      "description": "Operations related to staff management"
+    },
+    {
+      "name": "Dental Charts",
+      "description": "Operations related to dental chart and tooth condition management"
+    },
+    {
+      "name": "Lab Requests",
+      "description": "Operations related to laboratory request management"
+    },
+    {
       "name": "Documents",
       "description": "Operations related to patient document management"
+    },
+    {
+      "name": "Specialties",
+      "description": "Operations related to specialty management"
     },
     {
       "name": "Treatment Materials",
@@ -321,6 +333,274 @@
           },
           "404": {
             "description": "Treatment material not found"
+          }
+        }
+      }
+    },
+    "/api/v1/staff/{id}": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Get staff member by ID",
+        "description": "Retrieves a staff member by their unique identifier.",
+        "operationId": "getStaffById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Staff ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Staff member found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Staff member not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Update staff member",
+        "description": "Updates an existing staff member record.",
+        "operationId": "updateStaff",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Staff ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Staff member updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Staff member not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error or email already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Delete staff member",
+        "description": "Deactivates a staff member (soft delete).",
+        "operationId": "deleteStaff",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Staff ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Staff member deactivated"
+          },
+          "404": {
+            "description": "Staff member not found"
+          }
+        }
+      }
+    },
+    "/api/v1/specialties/{id}": {
+      "get": {
+        "tags": [
+          "Specialties"
+        ],
+        "summary": "Get specialty by ID",
+        "description": "Retrieves a specialty by its unique identifier.",
+        "operationId": "getSpecialtyById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Specialty ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Specialty found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialtyDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Specialty not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialtyDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Specialties"
+        ],
+        "summary": "Update specialty",
+        "description": "Updates an existing specialty record.",
+        "operationId": "updateSpecialty",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Specialty ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpecialtyUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Specialty updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialtyDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Specialty not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialtyDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error or specialty name already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialtyDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Specialties"
+        ],
+        "summary": "Delete specialty",
+        "description": "Deactivates a specialty (soft delete).",
+        "operationId": "deleteSpecialty",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Specialty ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Specialty deactivated"
+          },
+          "404": {
+            "description": "Specialty not found"
           }
         }
       }
@@ -791,6 +1071,88 @@
         }
       }
     },
+    "/api/v1/clinic-info": {
+      "get": {
+        "tags": [
+          "Clinic Info"
+        ],
+        "summary": "Get clinic information",
+        "description": "Retrieves the clinic information.",
+        "operationId": "getClinicInfo",
+        "responses": {
+          "200": {
+            "description": "Clinic information retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClinicInfoDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Clinic information not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClinicInfoDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Clinic Info"
+        ],
+        "summary": "Update clinic information",
+        "description": "Updates the clinic information.",
+        "operationId": "updateClinicInfo",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClinicInfoUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Clinic information updated",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClinicInfoDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClinicInfoDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Clinic information not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClinicInfoDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/treatments": {
       "post": {
         "tags": [
@@ -1004,6 +1366,222 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PageTreatmentMaterialDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/staff": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Get all staff members",
+        "description": "Retrieves paginated list of all staff members.",
+        "operationId": "getAllStaff",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria: property(,asc|desc). Default: fullName",
+            "example": "fullName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Staff members retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageStaffDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Create new staff member",
+        "description": "Creates a new staff member record.",
+        "operationId": "createStaff",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Staff member created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error or email already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/staff/search/advanced": {
+      "post": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Advanced staff search",
+        "description": "Search staff members with multiple criteria and filters.",
+        "operationId": "advancedSearchStaff",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria: property(,asc|desc). Default: fullName",
+            "example": "fullName"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffSearchCriteria"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Staff members retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageStaffDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/specialties": {
+      "get": {
+        "tags": [
+          "Specialties"
+        ],
+        "summary": "Get all specialties",
+        "description": "Retrieves paginated list of all specialties.",
+        "operationId": "getAllSpecialties",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria: property(,asc|desc). Default: name",
+            "example": "name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Specialties retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageSpecialtyDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Specialties"
+        ],
+        "summary": "Create new specialty",
+        "description": "Creates a new specialty record.",
+        "operationId": "createSpecialty",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpecialtyCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Specialty created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialtyDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error or specialty already exists",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpecialtyDto"
                 }
               }
             }
@@ -1719,6 +2297,251 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PageTreatmentMaterialDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/staff/search": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Search staff members",
+        "description": "Search staff members by name, email, or phone number.",
+        "operationId": "searchStaff",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria: property(,asc|desc). Default: fullName",
+            "example": "fullName"
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "description": "Search term for filtering staff members",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Staff members retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageStaffDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/staff/by-role/{role}": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Get staff members by role",
+        "description": "Retrieves paginated list of staff members with a specific role.",
+        "operationId": "getStaffByRole",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria: property(,asc|desc). Default: fullName",
+            "example": "fullName"
+          },
+          {
+            "name": "role",
+            "in": "path",
+            "description": "Staff role",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "DOCTOR",
+                "NURSE",
+                "ASSISTANT",
+                "RECEPTIONIST",
+                "ACCOUNTANT",
+                "ADMIN"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Staff members retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageStaffDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/staff/active": {
+      "get": {
+        "tags": [
+          "Staff"
+        ],
+        "summary": "Get active staff members",
+        "description": "Retrieves paginated list of active staff members.",
+        "operationId": "getActiveStaff",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria: property(,asc|desc). Default: fullName",
+            "example": "fullName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active staff members retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageStaffDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/specialties/search": {
+      "get": {
+        "tags": [
+          "Specialties"
+        ],
+        "summary": "Search specialties",
+        "description": "Search specialties by name or description.",
+        "operationId": "searchSpecialties",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria: property(,asc|desc). Default: name",
+            "example": "name"
+          },
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "description": "Search term for filtering specialties",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Specialties retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageSpecialtyDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/specialties/active": {
+      "get": {
+        "tags": [
+          "Specialties"
+        ],
+        "summary": "Get active specialties",
+        "description": "Retrieves paginated list of active specialties.",
+        "operationId": "getActiveSpecialties",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "example": 20
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria: property(,asc|desc). Default: name",
+            "example": "name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Active specialties retrieved",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageSpecialtyDto"
                 }
               }
             }
@@ -3193,6 +4016,145 @@
           }
         }
       },
+      "StaffUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "DOCTOR",
+              "NURSE",
+              "ASSISTANT",
+              "RECEPTIONIST",
+              "ACCOUNTANT",
+              "ADMIN"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "phoneNumber": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 0
+          },
+          "specialtyIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "uniqueItems": true
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "email",
+          "fullName",
+          "role"
+        ]
+      },
+      "SpecialtyDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StaffDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "DOCTOR",
+              "NURSE",
+              "ASSISTANT",
+              "RECEPTIONIST",
+              "ACCOUNTANT",
+              "ADMIN"
+            ]
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "specialties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecialtyDto"
+            },
+            "uniqueItems": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SpecialtyUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
       "PatientUpdateRequest": {
         "type": "object",
         "properties": {
@@ -3398,6 +4360,69 @@
           }
         }
       },
+      "ClinicInfoUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 0
+          },
+          "address": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 0
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "timezone": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "name",
+          "timezone"
+        ]
+      },
+      "ClinicInfoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "TreatmentSearchCriteria": {
         "type": "object",
         "description": "Advanced search criteria for treatments",
@@ -3563,10 +4588,10 @@
           "empty": {
             "type": "boolean"
           },
-          "sorted": {
+          "unsorted": {
             "type": "boolean"
           },
-          "unsorted": {
+          "sorted": {
             "type": "boolean"
           }
         }
@@ -3754,6 +4779,142 @@
             "type": "boolean"
           }
         }
+      },
+      "StaffCreateRequest": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "DOCTOR",
+              "NURSE",
+              "ASSISTANT",
+              "RECEPTIONIST",
+              "ACCOUNTANT",
+              "ADMIN"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "phoneNumber": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 0
+          },
+          "specialtyIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "email",
+          "fullName",
+          "role"
+        ]
+      },
+      "StaffSearchCriteria": {
+        "type": "object",
+        "properties": {
+          "searchTerm": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "DOCTOR",
+              "NURSE",
+              "ASSISTANT",
+              "RECEPTIONIST",
+              "ACCOUNTANT",
+              "ADMIN"
+            ]
+          },
+          "specialtyIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "uniqueItems": true
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageStaffDto": {
+        "type": "object",
+        "properties": {
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StaffDto"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/SwaggerPageable"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SpecialtyCreateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
       },
       "PatientCreateRequest": {
         "type": "object",
@@ -4190,6 +5351,52 @@
           "paymentDate",
           "paymentMethod"
         ]
+      },
+      "PageSpecialtyDto": {
+        "type": "object",
+        "properties": {
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecialtyDto"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/SwaggerPageable"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
       },
       "PageProcedureSummaryDto": {
         "type": "object",

@@ -18,8 +18,7 @@ The generated code must compile with `ng build --configuration=production --stri
 ### Folder layout to emit
 ```
 
-projects/
-└─clinic-frontend/
+─clinicX-UI/
 ├─src/app/
 │  ├─core/
 │  │  ├─api/

@@ -105,4 +105,24 @@ export class AppointmentsPanelComponent implements OnInit {
     };
     return statusMap[status] || 'scheduled';
   }
+
+  getPatientGender(appointment: AppointmentCardDto): string {
+    // Since AppointmentCardDto doesn't have gender field, we'll use a simple logic
+    // In a real app, this would come from the patient data
+    // For now, we'll alternate based on the patient ID's last character
+    const lastChar = appointment.patientId.slice(-1);
+    return parseInt(lastChar, 16) % 2 === 0 ? 'male' : 'female';
+  }
+
+  getStatusLabel(status: string): string {
+    const statusLabels: { [key: string]: string } = {
+      'SCHEDULED': 'مجدول',
+      'CONFIRMED': 'مؤكد',
+      'CANCELLED': 'ملغي',
+      'COMPLETED': 'مكتمل',
+      'NO_SHOW': 'لم يحضر',
+      'PENDING_CONFIRMATION': 'في انتظار التأكيد'
+    };
+    return statusLabels[status] || status;
+  }
 }

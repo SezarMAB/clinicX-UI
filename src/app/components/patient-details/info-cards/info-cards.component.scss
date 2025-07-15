@@ -2,13 +2,13 @@
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 }
 
 .info-card {
   flex: 1;
   min-width: 200px;
-  
+
   mat-card-content {
     display: flex;
     align-items: center;
@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  
+
   mat-icon {
     color: var(--primary-green);
     font-size: 24px;
@@ -37,14 +37,14 @@
 
 .info-card-content {
   flex: 1;
-  
+
   h3 {
     margin: 0 0 4px 0;
     font-size: 0.875rem;
     color: var(--text-light);
     font-weight: normal;
   }
-  
+
   p {
     margin: 0;
     font-size: 1.125rem;
@@ -69,10 +69,10 @@
 .alert-card {
   background-color: #fef3c7;
   border: 1px solid #fbbf24;
-  
+
   .info-card-icon {
     background-color: #fef3c7;
-    
+
     mat-icon {
       color: #f59e0b;
     }

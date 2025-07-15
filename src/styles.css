@@ -17,18 +17,14 @@
   --font-family: 'Cairo', 'Roboto', sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html, body { 
-  height: 100%; 
+html, body {
+  height: 100%;
   overflow-x: hidden;
 }
 
-body { 
-  margin: 0; 
-  font-family: var(--font-family); 
+body {
+  margin: 0;
+  font-family: var(--font-family);
   background-color: var(--bg-light-green);
   color: var(--text-dark);
   direction: rtl;

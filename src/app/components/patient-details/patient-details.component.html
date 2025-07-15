@@ -11,115 +11,17 @@
     <!-- Patient content -->
     @if (!isLoading() && patient()) {
       <div class="patient-content">
-      <!-- Patient details panel -->
-      <section class="patient-details-panel">
-        <!-- Patient header -->
-        <div class="patient-header">
-          <!-- Patient avatar -->
-          <div class="patient-photo avatar" [attr.data-gender]="patient()!.gender?.toLowerCase()">
-            <mat-icon>person</mat-icon>
-          </div>
+        <!-- Patient details panel -->
+        <section class="patient-details-panel">
+          <!-- Patient summary component -->
+          <app-patient-summary [patient]="patient()!"></app-patient-summary>
 
-          <!-- Patient summary -->
-          <div class="patient-summary">
-            <h2>
-              {{ patient()!.fullName }}
-              <span class="patient-id orange">{{ patient()!.publicFacingId }}</span>
-              @if (patient()!.hasAlert) {
-                <mat-icon class="has-alert" matTooltip="يوجد تنبيهات">description</mat-icon>
-              }
-            </h2>
-            <p>{{ formatDate(patient()!.dateOfBirth) }} ({{ patient()?.age }})</p>
-            <p>(ج) موبايل: {{ patient()!.phoneNumber }}</p>
-            <p>{{ patient()!.insuranceProvider }}</p>
-            <div class="patient-tags">
-              <mat-chip-set>
-                @for (tag of patientTags; track tag) {
-                  <mat-chip>{{ tag }}</mat-chip>
-                }
-              </mat-chip-set>
-            </div>
-          </div>
+          <!-- Info cards component -->
+          <app-info-cards [patient]="patient()!"></app-info-cards>
 
-          <!-- Info cards placeholder -->
-          <div class="info-card-container">
-            <!-- Info cards will be added here -->
-          </div>
-        </div>
-
-        <!-- Dental chart placeholder -->
-        <div class="chart-container">
-          <!-- Dental chart component will be added here -->
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>مخطط الأسنان</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <!-- Placeholder for dental chart -->
-              <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #999;">
-                مخطط الأسنان سيظهر هنا
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-
-        <!-- Tabs -->
-        <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
-          <mat-tab label="البيانات الأساسية">
-            <ng-template matTabContent>
-              <!-- Basic info content -->
-              <div class="tab-content">
-                <p>محتوى البيانات الأساسية</p>
-              </div>
-            </ng-template>
-          </mat-tab>
-
-          <mat-tab label="سجل الزيارات">
-            <ng-template matTabContent>
-              <!-- Treatment log content -->
-              <div class="tab-content">
-                <p>محتوى سجل الزيارات</p>
-              </div>
-            </ng-template>
-          </mat-tab>
-
-          <mat-tab label="مستندات العلاج">
-            <ng-template matTabContent>
-              <!-- Documents content -->
-              <div class="tab-content">
-                <p>محتوى المستندات</p>
-              </div>
-            </ng-template>
-          </mat-tab>
-
-          <mat-tab label="ورقة العلاج">
-            <ng-template matTabContent>
-              <!-- Treatment form content -->
-              <div class="tab-content">
-                <p>محتوى ورقة العلاج</p>
-              </div>
-            </ng-template>
-          </mat-tab>
-
-          <mat-tab label="المختبر">
-            <ng-template matTabContent>
-              <!-- Lab content -->
-              <div class="tab-content">
-                <p>محتوى المختبر</p>
-              </div>
-            </ng-template>
-          </mat-tab>
-
-          <mat-tab label="المالية">
-            <ng-template matTabContent>
-              <!-- Finance content -->
-              <div class="tab-content">
-                <p>محتوى المالية</p>
-              </div>
-            </ng-template>
-          </mat-tab>
-        </mat-tab-group>
-      </section>
+          <!-- Patient tabs component -->
+          <app-patient-tabs></app-patient-tabs>
+        </section>
       </div>
     }
   </div>

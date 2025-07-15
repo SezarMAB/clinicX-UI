@@ -1,31 +1,25 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { PatientsService } from '@features/patients/patients.service';
 import { PatientSummaryDto } from '@features/patients/patients.models';
+
+// Child components
+import { PatientSummaryComponent } from './patient-summary/patient-summary.component';
+import { InfoCardsComponent } from './info-cards/info-cards.component';
+import { PatientTabsComponent } from './patient-tabs/patient-tabs.component';
 
 @Component({
   selector: 'app-patient-details',
   standalone: true,
   imports: [
     CommonModule,
-    MatTabsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatChipsModule,
-    MatTooltipModule,
-    MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    PatientSummaryComponent,
+    InfoCardsComponent,
+    PatientTabsComponent
   ],
   templateUrl: './patient-details.component.html',
   styleUrl: './patient-details.component.css'
@@ -38,10 +32,6 @@ export class PatientDetailsComponent implements OnInit, OnChanges {
 
   patient = signal<PatientSummaryDto | null>(null);
   isLoading = signal(true);
-  selectedTabIndex = signal(0);
-
-  // Mock data for demonstration
-  patientTags = ['JSC', 'AMS', 'BND'];
 
   ngOnInit(): void {
     // Check if patientId comes from @Input or route
@@ -97,18 +87,6 @@ export class PatientDetailsComponent implements OnInit, OnChanges {
 
     this.patient.set(mockPatient);
     this.isLoading.set(false);
-  }
-
-  onTabChange(index: number): void {
-    this.selectedTabIndex.set(index);
-  }
-
-  formatDate(date: string): string {
-    const dateObj = new Date(date);
-    const day = dateObj.getDate().toString().padStart(2, '0');
-    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
-    const year = dateObj.getFullYear();
-    return `${day}.${month}.${year}`;
   }
 
 }

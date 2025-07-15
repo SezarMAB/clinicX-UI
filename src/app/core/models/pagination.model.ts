@@ -61,4 +61,6 @@ export interface PaginationParams {
   size?: number;
   /** Sort criteria */
   sort?: string;
+  /** Sort direction */
+  direction?: 'asc' | 'desc';
 }

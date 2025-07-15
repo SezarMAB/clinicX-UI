@@ -189,6 +189,9 @@ export class PatientsService {
       if (params.sort) {
         httpParams = httpParams.set('sort', params.sort);
       }
+      if (params.direction) {
+        httpParams = httpParams.set('direction', params.direction);
+      }
     }
     
     return httpParams;

@@ -19,7 +19,9 @@
 
 html, body {
   height: 100%;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 body {
@@ -28,6 +30,12 @@ body {
   background-color: var(--bg-light-green);
   color: var(--text-dark);
   direction: rtl;
+  overflow: hidden;
+}
+
+/* Prevent horizontal scrollbar */
+* {
+  box-sizing: border-box;
 }
 
 /* Global fix for Material table cell alignment */

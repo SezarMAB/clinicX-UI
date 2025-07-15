@@ -116,9 +116,7 @@
 
 /* Patient content */
 .patient-content {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 0;
+  display: block;
   width: 100%;
   height: 100%;
 }
@@ -128,6 +126,7 @@
   background-color: var(--bg-white);
   overflow-y: auto;
   padding: 24px;
+  height: 100%;
 }
 
 /* Patient header */
@@ -250,27 +249,9 @@ mat-tab-group {
   gap: 8px;
 }
 
-/* Appointments panel */
-.appointments-panel {
-  background-color: var(--bg-white);
-  border-right: 1px solid var(--border-color);
-  overflow-y: auto;
-  padding: 20px;
-}
-
-.appointments-panel mat-card {
-  border: 1px solid var(--border-color);
-}
-
 /* Responsive */
 @media (max-width: 1200px) {
-  .patient-content {
-    grid-template-columns: 1fr;
-  }
-
-  .appointments-panel {
-    display: none;
-  }
+  /* No changes needed since appointments panel is removed */
 }
 
 @media (max-width: 768px) {

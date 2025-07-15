@@ -2,12 +2,15 @@
   <!-- Content body -->
   <div class="content-body">
     <!-- Loading spinner -->
-    <div *ngIf="isLoading()" class="loading-container">
-      <mat-spinner></mat-spinner>
-    </div>
+    @if (isLoading()) {
+      <div class="loading-container">
+        <mat-spinner></mat-spinner>
+      </div>
+    }
 
     <!-- Patient content -->
-    <div *ngIf="!isLoading() && patient()" class="patient-content">
+    @if (!isLoading() && patient()) {
+      <div class="patient-content">
       <!-- Patient details panel -->
       <section class="patient-details-panel">
         <!-- Patient header -->
@@ -22,14 +25,18 @@
             <h2>
               {{ patient()!.fullName }}
               <span class="patient-id orange">{{ patient()!.publicFacingId }}</span>
-              <mat-icon *ngIf="patient()!.hasAlert" class="has-alert" matTooltip="يوجد تنبيهات">description</mat-icon>
+              @if (patient()!.hasAlert) {
+                <mat-icon class="has-alert" matTooltip="يوجد تنبيهات">description</mat-icon>
+              }
             </h2>
             <p>{{ formatDate(patient()!.dateOfBirth) }} ({{ patient()?.age }})</p>
             <p>(ج) موبايل: {{ patient()!.phoneNumber }}</p>
             <p>{{ patient()!.insuranceProvider }}</p>
             <div class="patient-tags">
               <mat-chip-set>
-                <mat-chip *ngFor="let tag of patientTags">{{ tag }}</mat-chip>
+                @for (tag of patientTags; track tag) {
+                  <mat-chip>{{ tag }}</mat-chip>
+                }
               </mat-chip-set>
             </div>
           </div>
@@ -136,6 +143,7 @@
           </mat-menu>
         </div>
       </section>
-    </div>
+      </div>
+    }
   </div>
 </div>

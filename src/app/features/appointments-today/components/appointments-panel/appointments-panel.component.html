@@ -5,24 +5,29 @@
   </mat-card-header>
   
   <mat-card-content class="appointments-panel__content">
-    <div *ngIf="isLoading()" class="appointments-panel__loading">
-      <mat-spinner diameter="40"></mat-spinner>
-    </div>
+    @if (isLoading()) {
+      <div class="appointments-panel__loading">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+    }
     
-    <div *ngIf="error()" class="appointments-panel__error">
-      <mat-icon>error_outline</mat-icon>
-      <p>{{ error() }}</p>
-    </div>
+    @if (error()) {
+      <div class="appointments-panel__error">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ error() }}</p>
+      </div>
+    }
     
-    <mat-list *ngIf="!isLoading() && !error()" class="appointments-panel__list">
-      <mat-list-item 
-        *ngFor="let appointment of appointments()"
-        [class.appointments-panel__item--selected]="isSelected(appointment.appointmentId)"
-        [attr.aria-selected]="isSelected(appointment.appointmentId)"
-        (click)="selectAppointment(appointment)"
-        tabindex="0"
-        role="option"
-        class="appointments-panel__item">
+    @if (!isLoading() && !error()) {
+      <mat-list class="appointments-panel__list">
+        @for (appointment of appointments(); track appointment.appointmentId) {
+          <mat-list-item 
+            [class.appointments-panel__item--selected]="isSelected(appointment.appointmentId)"
+            [attr.aria-selected]="isSelected(appointment.appointmentId)"
+            (click)="selectAppointment(appointment)"
+            tabindex="0"
+            role="option"
+            class="appointments-panel__item">
         
         <div matListItemTitle class="appointments-panel__item-title">
           <span class="appointments-panel__time">{{ getAppointmentTime(appointment.startTime) }}</span>
@@ -39,16 +44,22 @@
         </div>
         
         <div matListItemLine class="appointments-panel__item-meta">
-          <span *ngIf="appointment.practitionerTag">{{ appointment.practitionerTag }}</span>
+          @if (appointment.practitionerTag) {
+            <span>{{ appointment.practitionerTag }}</span>
+          }
         </div>
         
-        <mat-divider></mat-divider>
-      </mat-list-item>
-      
-      <div *ngIf="appointments().length === 0" class="appointments-panel__empty">
+          <mat-divider></mat-divider>
+        </mat-list-item>
+        }
+        
+        @if (appointments().length === 0) {
+          <div class="appointments-panel__empty">
         <mat-icon>event_busy</mat-icon>
-        <p>لا توجد مواعيد لهذا اليوم</p>
-      </div>
-    </mat-list>
+          <p>لا توجد مواعيد لهذا اليوم</p>
+        </div>
+        }
+      </mat-list>
+    }
   </mat-card-content>
 </mat-card>

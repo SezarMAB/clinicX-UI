@@ -12,20 +12,23 @@
         [matAutocomplete]="auto"
         placeholder="ابحث عن مريض، رقم المريض، تاريخ الميلاد">
       <mat-icon matPrefix>search</mat-icon>
-      <mat-spinner
-        *ngIf="isSearching()"
-        matSuffix
-        [diameter]="20">
-      </mat-spinner>
+      @if (isSearching()) {
+        <mat-spinner
+          matSuffix
+          [diameter]="20">
+        </mat-spinner>
+      }
     </mat-form-field>
 
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectPatient($event.option.value)">
-      <mat-option *ngFor="let patient of searchResults()" [value]="patient">
-        <div class="patient-option">
-          <span class="patient-name">{{ patient.fullName }}</span>
-          <span class="patient-dob">{{ formatDate(patient.dateOfBirth) }}</span>
-        </div>
-      </mat-option>
+      @for (patient of searchResults(); track patient.id) {
+        <mat-option [value]="patient">
+          <div class="patient-option">
+            <span class="patient-name">{{ patient.fullName }}</span>
+            <span class="patient-dob">{{ formatDate(patient.dateOfBirth) }}</span>
+          </div>
+        </mat-option>
+      }
     </mat-autocomplete>
   </div>
 

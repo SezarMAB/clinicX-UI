@@ -46,7 +46,7 @@
   &__item {
     cursor: pointer;
     transition: background-color 0.2s ease;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
 
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
@@ -67,7 +67,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
   }
 
   &__time {

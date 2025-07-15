@@ -40,6 +40,11 @@
   position: relative;
 }
 
+/* No padding modifier */
+.patient-details-panel--no-padding {
+  padding: 0;
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
   /* No changes needed since appointments panel is removed */

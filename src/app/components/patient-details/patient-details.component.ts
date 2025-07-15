@@ -26,6 +26,7 @@ import { PatientTabsComponent } from './patient-tabs/patient-tabs.component';
 })
 export class PatientDetailsComponent implements OnInit, OnChanges {
   @Input() patientId: string | null = null;
+  @Input() noPadding: boolean = false;
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private patientsService = inject(PatientsService);

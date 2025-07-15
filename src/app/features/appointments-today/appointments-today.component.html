@@ -28,7 +28,8 @@
              [dir]="layoutOrder() === 'details-first' ? 'rtl' : 'ltr'">
       @if (selectedPatientId()) {
         <app-patient-details
-          [patientId]="selectedPatientId()">
+          [patientId]="selectedPatientId()"
+          [noPadding]="true">
         </app-patient-details>
       } @else {
         <div class="appointments-today__placeholder">

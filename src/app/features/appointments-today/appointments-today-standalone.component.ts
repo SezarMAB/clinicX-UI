@@ -2,6 +2,7 @@ import {Component, OnInit, OnDestroy, signal, inject, computed, HostListener} fr
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 import { AppointmentsPanelComponent } from './components/appointments-panel/appointments-panel-standalone.component';
 import { PatientDetailsComponent } from '@components/patient-details/patient-details.component';
@@ -10,7 +11,7 @@ import {AppointmentCardDto} from '@features/appointments';
 @Component({
   selector: 'app-appointments-today',
   standalone: true,
-  imports: [CommonModule, AppointmentsPanelComponent, PatientDetailsComponent],
+  imports: [CommonModule, MatIconModule, AppointmentsPanelComponent, PatientDetailsComponent],
   templateUrl: './appointments-today.component.html',
   styleUrls: ['./appointments-today.component.scss']
 })

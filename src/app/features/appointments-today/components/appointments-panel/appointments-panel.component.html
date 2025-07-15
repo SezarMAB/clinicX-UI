@@ -28,13 +28,13 @@
             tabindex="0"
             role="option"
             [attr.aria-selected]="isSelected(appointment.appointmentId)">
-            
+
             <!-- Avatar and Patient Info -->
             <div class="appointments-panel__card-header">
-              <div class="appointments-panel__avatar" [attr.data-gender]="getPatientGender(appointment)">
+              <div class="appointments-panel__avatar" [attr.data-gender]="appointment.patientGender">
                 <mat-icon>person</mat-icon>
               </div>
-              
+
               <div class="appointments-panel__patient-info">
                 <h3 class="appointments-panel__patient-name">{{ appointment.patientFullName }}</h3>
                 <div class="appointments-panel__patient-meta">
@@ -47,29 +47,29 @@
                   }
                 </div>
               </div>
-              
-              <div class="appointments-panel__time-badge">
-                {{ getAppointmentTime(appointment.startTime) }}
+
+              <div class="appointments-panel__badges">
+                <div class="appointments-panel__time-badge">
+                  {{ getAppointmentTime(appointment.startTime) }}
+                </div>
+                <div class="appointments-panel__status-badge" [attr.data-status]="getStatusClass(appointment.status)">
+                  {{ getStatusLabel(appointment.status) }}
+                </div>
               </div>
             </div>
-            
+
             <!-- Appointment Details -->
             <div class="appointments-panel__card-body">
               <div class="appointments-panel__appointment-type">
                 <mat-icon>medical_services</mat-icon>
                 {{ appointment.appointmentType }}
               </div>
-              
+
               @if (appointment.practitionerTag) {
                 <div class="appointments-panel__practitioner-tag">
                   {{ appointment.practitionerTag }}
                 </div>
               }
-            </div>
-            
-            <!-- Status Badge -->
-            <div class="appointments-panel__status-badge" [attr.data-status]="getStatusClass(appointment.status)">
-              {{ getStatusLabel(appointment.status) }}
             </div>
           </div>
         }

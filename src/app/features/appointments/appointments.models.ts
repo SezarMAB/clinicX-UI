@@ -46,6 +46,8 @@ export interface AppointmentCardDto {
   patientPublicId: string;
   /** Patient phone number */
   patientPhoneNumber: string;
+  /** Patient gender */
+  patientGender: string;
   /** Start time */
   startTime: string;
   /** End time */

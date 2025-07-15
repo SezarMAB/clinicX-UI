@@ -107,11 +107,8 @@ export class AppointmentsPanelComponent implements OnInit {
   }
 
   getPatientGender(appointment: AppointmentCardDto): string {
-    // Since AppointmentCardDto doesn't have gender field, we'll use a simple logic
-    // In a real app, this would come from the patient data
-    // For now, we'll alternate based on the patient ID's last character
-    const lastChar = appointment.patientId.slice(-1);
-    return parseInt(lastChar, 16) % 2 === 0 ? 'male' : 'female';
+    // Use the patientGender field if available, otherwise return 'male' as default
+    return appointment.patientGender || 'male';
   }
 
   getStatusLabel(status: string): string {

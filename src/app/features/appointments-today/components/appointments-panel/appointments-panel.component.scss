@@ -125,6 +125,7 @@
   &__patient-meta {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 0.125rem;
   }
 
@@ -138,7 +139,7 @@
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     color: var(--text-light);
 
     mat-icon {
@@ -149,14 +150,18 @@
     }
   }
 
+  &__badges {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: flex-end;
+  }
+
   &__time-badge {
-    position: absolute;
-    top: 0;
-    left: 0;
     background-color: var(--primary-green);
     color: white;
     padding: 0.25rem 0.5rem;
-    border-radius: 0 0 8px 0;
+    border-radius: 4px;
     font-size: 0.8125rem;
     font-weight: 600;
   }
@@ -192,9 +197,6 @@
   }
 
   &__status-badge {
-    position: absolute;
-    bottom: 0.75rem;
-    right: 0.75rem;
     font-size: 0.75rem;
     font-weight: 500;
     padding: 0.25rem 0.75rem;

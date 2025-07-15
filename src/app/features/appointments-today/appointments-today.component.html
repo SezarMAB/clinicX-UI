@@ -15,9 +15,17 @@
     </div>
 
     <section class="appointments-today__details">
-      <app-patient-details
-        [patientId]="selectedPatientId()">
-      </app-patient-details>
+      @if (selectedPatientId()) {
+        <app-patient-details
+          [patientId]="selectedPatientId()">
+        </app-patient-details>
+      } @else {
+        <div class="appointments-today__placeholder">
+          <mat-icon>event_note</mat-icon>
+          <h2>لم يتم اختيار موعد</h2>
+          <p>الرجاء اختيار موعد من القائمة لعرض تفاصيل المريض</p>
+        </div>
+      }
     </section>
   </div>
 </div>

@@ -119,29 +119,6 @@
             </ng-template>
           </mat-tab>
         </mat-tab-group>
-
-        <!-- Tab actions -->
-        <div class="tab-actions">
-          <button mat-icon-button matTooltip="طباعة">
-            <mat-icon>print</mat-icon>
-          </button>
-          <button mat-icon-button matTooltip="إضافة">
-            <mat-icon>add</mat-icon>
-          </button>
-          <button mat-icon-button [matMenuTriggerFor]="moreMenu">
-            <mat-icon>more_horiz</mat-icon>
-          </button>
-          <mat-menu #moreMenu="matMenu">
-            <button mat-menu-item>
-              <mat-icon>edit</mat-icon>
-              <span>تعديل</span>
-            </button>
-            <button mat-menu-item>
-              <mat-icon>share</mat-icon>
-              <span>مشاركة</span>
-            </button>
-          </mat-menu>
-        </div>
       </section>
       </div>
     }

@@ -21,7 +21,7 @@ export const API_CONFIG = new InjectionToken<ApiConfig>('API_CONFIG');
  * Default API configuration values.
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  baseUrl: 'http://localhost:8080',
+  baseUrl: '',
   version: 'v1',
   timeout: 30000
 };

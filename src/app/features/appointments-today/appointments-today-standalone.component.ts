@@ -88,9 +88,25 @@ export class AppointmentsTodayStandaloneComponent implements OnInit, OnDestroy {
     if (!this.isResizing) return;
     
     const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
-    // In RTL layout, we need to invert the diff calculation
     const isRTL = document.dir === 'rtl' || document.documentElement.dir === 'rtl';
-    const diff = isRTL ? (this.startX - clientX) : (clientX - this.startX);
+    const isPanelOnRight = this.layoutOrder() === 'details-first';
+    
+    // Calculate diff based on panel position and RTL
+    let diff = clientX - this.startX;
+    
+    // Invert diff based on panel position and RTL
+    if (isRTL && !isPanelOnRight) {
+      // RTL with panel on left (default RTL position)
+      diff = -diff;
+    } else if (!isRTL && isPanelOnRight) {
+      // LTR with panel on right (after toggle)
+      diff = -diff;
+    } else if (isRTL && isPanelOnRight) {
+      // RTL with panel on right (after toggle in RTL)
+      // diff stays positive
+    }
+    // else: LTR with panel on left (default) - diff stays positive
+    
     const newWidth = this.startWidth + diff;
     
     // Apply constraints

@@ -37,11 +37,12 @@
 
   <!-- Table Container -->
   <div class="table-container" [class.loading]="isLoading()">
-    <table mat-table 
-           [dataSource]="dataSource" 
-           matSort 
-           (matSortChange)="onSortChange($event)"
-           class="patient-table">
+    <div class="table-wrapper">
+      <table mat-table 
+             [dataSource]="dataSource" 
+             matSort 
+             (matSortChange)="onSortChange($event)"
+             class="patient-table">
 
       <!-- Public ID Column -->
       <ng-container matColumnDef="publicFacingId">
@@ -195,18 +196,19 @@
           }
         </td>
       </tr>
-    </table>
-  </div>
-
-  <!-- Paginator -->
-  <mat-paginator 
+      </table>
+    </div>
+    
+    <!-- Paginator -->
+    <mat-paginator 
     [length]="totalElements()"
     [pageSize]="pageSize()"
     [pageIndex]="pageIndex()"
     [pageSizeOptions]="[10, 20, 50, 100]"
     (page)="onPageChange($event)"
     showFirstLastButtons>
-  </mat-paginator>
+    </mat-paginator>
+  </div>
 </div>
 
 <!-- Import Angular Material Menu (required for actions menu) -->

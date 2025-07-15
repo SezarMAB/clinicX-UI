@@ -9,24 +9,152 @@
   </div>
 
   <!-- Search Bar -->
-  <mat-form-field appearance="outline" class="search-field">
-    <mat-label>Search patients</mat-label>
-    <input 
-      matInput 
-      placeholder="Search by name, ID, phone, or email..."
-      (input)="onSearchChange($event)"
-      [disabled]="isLoading()">
-    <mat-icon matPrefix>search</mat-icon>
-    @if (searchTerm()) {
-      <button 
-        matSuffix 
-        mat-icon-button 
-        aria-label="Clear search"
-        (click)="searchTerm.set(''); searchPatients()">
-        <mat-icon>close</mat-icon>
-      </button>
-    }
-  </mat-form-field>
+  <div class="search-section">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search patients</mat-label>
+      <input 
+        matInput 
+        placeholder="Search by name, ID, phone, or email..."
+        (input)="onSearchChange($event)"
+        [disabled]="isLoading()">
+      <mat-icon matPrefix>search</mat-icon>
+      @if (searchTerm()) {
+        <button 
+          matSuffix 
+          mat-icon-button 
+          aria-label="Clear search"
+          (click)="searchTerm.set(''); searchPatients()">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+
+    <button mat-stroked-button (click)="toggleAdvancedFilters()" class="filter-toggle-btn">
+      <mat-icon>filter_list</mat-icon>
+      Advanced Filters
+      @if (getActiveFilterCount() > 0) {
+        <span class="filter-badge">{{ getActiveFilterCount() }}</span>
+      }
+    </button>
+  </div>
+
+  <!-- Advanced Filters Section -->
+  @if (showAdvancedFilters()) {
+    <mat-expansion-panel expanded class="filters-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>tune</mat-icon>
+          Advanced Search Filters
+        </mat-panel-title>
+        <mat-panel-description>
+          @if (getActiveFilterCount() > 0) {
+            {{ getActiveFilterCount() }} active filters
+          } @else {
+            Configure search filters
+          }
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="filters-content">
+        <!-- Balance Range -->
+        <div class="filter-row">
+          <h4 class="filter-section-title">Balance Range</h4>
+          <div class="filter-fields">
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Balance From</mat-label>
+              <input 
+                matInput 
+                type="number" 
+                placeholder="0"
+                [ngModel]="balanceFrom()"
+                (ngModelChange)="balanceFrom.set($event)">
+              <span matPrefix>$</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Balance To</mat-label>
+              <input 
+                matInput 
+                type="number" 
+                placeholder="10000"
+                [ngModel]="balanceTo()"
+                (ngModelChange)="balanceTo.set($event)">
+              <span matPrefix>$</span>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Gender and Status -->
+        <div class="filter-row">
+          <h4 class="filter-section-title">Demographics & Status</h4>
+          <div class="filter-fields">
+            <mat-form-field appearance="outline" class="filter-field">
+              <mat-label>Gender</mat-label>
+              <mat-select [value]="selectedGender()" (valueChange)="selectedGender.set($event)">
+                <mat-option value="">All</mat-option>
+                <mat-option value="MALE">Male</mat-option>
+                <mat-option value="FEMALE">Female</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div class="toggle-field">
+              <mat-slide-toggle 
+                [checked]="isActive() === true"
+                (change)="isActive.set($event.checked)">
+                Active Patients Only
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Patient History Filters -->
+        <div class="filter-row">
+          <h4 class="filter-section-title">Patient History</h4>
+          <div class="filter-checkboxes">
+            <mat-checkbox 
+              [checked]="hasMedicalNotes() === true"
+              [indeterminate]="hasMedicalNotes() === null"
+              (change)="hasMedicalNotes.set($event.checked ? true : false)"
+              (click)="$event.stopPropagation(); hasMedicalNotes() === null ? hasMedicalNotes.set(true) : (hasMedicalNotes() === true ? hasMedicalNotes.set(false) : hasMedicalNotes.set(null))">
+              Has Medical Notes
+            </mat-checkbox>
+
+            <mat-checkbox 
+              [checked]="hasAppointments() === true"
+              [indeterminate]="hasAppointments() === null"
+              (change)="hasAppointments.set($event.checked ? true : false)"
+              (click)="$event.stopPropagation(); hasAppointments() === null ? hasAppointments.set(true) : (hasAppointments() === true ? hasAppointments.set(false) : hasAppointments.set(null))">
+              Has Appointments
+            </mat-checkbox>
+
+            <mat-checkbox 
+              [checked]="hasTreatments() === true"
+              [indeterminate]="hasTreatments() === null"
+              (change)="hasTreatments.set($event.checked ? true : false)"
+              (click)="$event.stopPropagation(); hasTreatments() === null ? hasTreatments.set(true) : (hasTreatments() === true ? hasTreatments.set(false) : hasTreatments.set(null))">
+              Has Treatments
+            </mat-checkbox>
+          </div>
+        </div>
+
+        <!-- Filter Actions -->
+        <mat-action-row>
+          <button mat-button (click)="clearFilters()">
+            <mat-icon>clear</mat-icon>
+            Clear All
+          </button>
+          <button mat-raised-button color="primary" (click)="applyFilters()">
+            <mat-icon>search</mat-icon>
+            Apply Filters
+          </button>
+        </mat-action-row>
+      </div>
+    </mat-expansion-panel>
+  }
 
   <!-- Loading Spinner -->
   @if (isLoading()) {

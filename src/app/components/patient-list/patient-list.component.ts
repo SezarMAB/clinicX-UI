@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -13,6 +13,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 import { PatientsService } from '@features/patients';
@@ -25,6 +30,7 @@ import { PaginationParams } from '@core/models/pagination.model';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
@@ -35,7 +41,12 @@ import { PaginationParams } from '@core/models/pagination.model';
     MatProgressSpinnerModule,
     MatChipsModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
+    MatDividerModule
   ],
   templateUrl: './patient-list.component.html',
   styleUrls: ['./patient-list.component.css']
@@ -68,6 +79,16 @@ export class PatientListComponent implements OnInit {
   // Search functionality
   searchTerm = signal('');
   private searchSubject = new Subject<string>();
+
+  // Advanced search criteria
+  showAdvancedFilters = signal(false);
+  balanceFrom = signal<number | null>(null);
+  balanceTo = signal<number | null>(null);
+  selectedGender = signal<string>('');
+  isActive = signal<boolean>(false);
+  hasMedicalNotes = signal<boolean | null>(null);
+  hasAppointments = signal<boolean | null>(null);
+  hasTreatments = signal<boolean | null>(null);
 
   // Pagination state
   totalElements = signal(0);
@@ -122,7 +143,13 @@ export class PatientListComponent implements OnInit {
 
     const searchCriteria: PatientSearchCriteria = {
       searchTerm: this.searchTerm() || undefined,
-      // Add more search criteria as needed
+      balanceFrom: this.balanceFrom() ?? undefined,
+      balanceTo: this.balanceTo() ?? undefined,
+      gender: this.selectedGender() || undefined,
+      isActive: this.isActive() || undefined,
+      hasMedicalNotes: this.hasMedicalNotes() ?? undefined,
+      hasAppointments: this.hasAppointments() ?? undefined,
+      hasTreatments: this.hasTreatments() ?? undefined
     };
 
     this.patientsService.searchPatients(
@@ -227,5 +254,52 @@ export class PatientListComponent implements OnInit {
       default:
         return 'person';
     }
+  }
+
+  /**
+   * Toggles advanced filters visibility
+   */
+  toggleAdvancedFilters(): void {
+    this.showAdvancedFilters.set(!this.showAdvancedFilters());
+  }
+
+  /**
+   * Clears all filters
+   */
+  clearFilters(): void {
+    this.balanceFrom.set(null);
+    this.balanceTo.set(null);
+    this.selectedGender.set('');
+    this.isActive.set(false);
+    this.hasMedicalNotes.set(null);
+    this.hasAppointments.set(null);
+    this.hasTreatments.set(null);
+    this.pageIndex.set(0);
+    this.searchPatients();
+  }
+
+  /**
+   * Applies filters and searches
+   */
+  applyFilters(): void {
+    this.pageIndex.set(0);
+    this.searchPatients();
+    // Close the filters panel to show results
+    this.showAdvancedFilters.set(false);
+  }
+
+  /**
+   * Gets the count of active filters
+   */
+  getActiveFilterCount(): number {
+    let count = 0;
+    if (this.balanceFrom() !== null) count++;
+    if (this.balanceTo() !== null) count++;
+    if (this.selectedGender()) count++;
+    if (this.isActive()) count++;
+    if (this.hasMedicalNotes() !== null) count++;
+    if (this.hasAppointments() !== null) count++;
+    if (this.hasTreatments() !== null) count++;
+    return count;
   }
 }

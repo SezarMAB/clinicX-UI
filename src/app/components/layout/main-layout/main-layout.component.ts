@@ -22,8 +22,10 @@ import { MatBadgeModule } from '@angular/material/badge';
 })
 export class MainLayoutComponent {
   sidebarItems = [
+    { icon: 'people', route: '/patients', tooltip: 'قائمة المرضى' },
     { icon: 'comment_bank', route: '/messages', badge: 3, tooltip: 'الرسائل' },
     { icon: 'calendar_today', route: '/appointments', tooltip: 'المواعيد' },
+    { icon: 'event_available', route: '/appointments-today', tooltip: 'مواعيد اليوم' },
     { icon: 'settings', route: '/settings', tooltip: 'الإعدادات' }
   ];
 }

@@ -1,100 +1,55 @@
-**LLM CODE-GENERATION PROMPT
-(Generate *Angular 20* Http Resource services from an OpenAPI 3.x JSON)**
+You are a senior Angular 20 front-end engineer.
 
----
+### Context
+An Angular workspace was generated earlier from our OpenAPI spec.  
+The project root is `clinicX-UI` and already follows the feature-folder layout:
 
-### 0️⃣ Goal
 
-> You are an **Angular 20** engineer.
-> Given a single **OpenAPI 3.x JSON** file, produce fully-typed **Angular Http services** that wrap every REST endpoint.
-> **One logical endpoint group → one service class**.
 
----
+### Task
+Add a **“Appointments for the Day”** feature with the following deliverables:
 
-### 1️⃣ Input
+1. **Module & routing**
+   * Folder: `src/app/features/appointments-today/`
+   * Lazy-loaded route at `/appointments-today`
+   * Module name: `AppointmentsTodayModule`
+   * Export an `index.ts` barrel.
 
-* **File**: `openapi.json` (full text appears in §6 at run time).
-* The spec uses `tags` to group operations; fall back to the first path segment if a tag is missing.
+2. **Components (Flex layout)**
+   | Component | Selector                  | Purpose                                               | Placement                                  |
+   |-----------|---------------------------|-------------------------------------------------------|--------------------------------------------|
+   | `AppointmentsTodayComponent` | `app-appointments-today` | Root of feature; handles route & layout              | Contains two `<section>` columns           |
+   | `AppointmentsPanelComponent` | `app-appointments-panel` | Left column: list (mat-list) of today’s appointments | 30 % width (responsive breakpoint ≥ md)    |
+   | `PatientDetailsCardComponent`| `app-patient-details`    | Right column: card with selected patient’s details   | 70 % width                                 |
 
----
+   *Use `display: flex; gap: 1rem` or `grid` so columns collapse to vertical on < 768 px.*
 
-### 2️⃣ Output – what to generate
+3. **Data flow**
+   * Re-use existing `AppointmentsService` to fetch `GET /api/v1/appointments/date/{today}`.
+   * Persist the selected appointment ID in a route query-param `?appointmentId=` and
+     refresh `PatientDetailsCardComponent` whenever it changes.
+   * Re-use existing `PatientsService.getById`.
 
-For **each tag / group** found in the spec:
+4. **Sidebar main navigation**
+   * File: `src/app/layout/sidebar-main-nav/sidebar-main-nav.component.html`
+   * Add a nav item **after “Appointments”**:
+     ```html
+     <a mat-list-item routerLink="/appointments-today">
+       <mat-icon svgIcon="calendar_today"></mat-icon>
+       Appointments for the Day
+     </a>
+     ```
+   * Register the `calendar_today` Material icon in the global `IconRegistry`
+     if not present yet (`calendar_month` fallback acceptable).
 
-| File               | Location             | Contents                                                              |
-| ------------------ | -------------------- | --------------------------------------------------------------------- |
-| `<tag>.models.ts`  | `src/app/api/<tag>/` | `export interface` types for every schema used by that tag            |
-| `<tag>.service.ts` | `src/app/api/<tag>/` | Injectable Angular 20 service that calls all operations with that tag |
+5. **Unit tests**
+   * `AppointmentsPanelComponent` spec: verifies that today’s list renders items and emits selection.
+   * `PatientDetailsCardComponent` spec: mocks `PatientsService` and displays patient name.
+   * Routing test: navigating to `/appointments-today?appointmentId=123` renders both components.
 
----
+6. **SCSS / styling**
+   * Each new component gets its own `.scss` file with BEM-style classes.
+   * Make the layout accessible: `aria-selected`, focus outline, keyboard navigation.
 
-#### Service implementation rules
-
-1. **Class name** `<Tag>ApiService` (`AccountsApiService`, `PatientsApiService`, …).
-2. Inject **`HttpClient`** and **`API_BASE_URL`** (`InjectionToken<string>` exported from `core/api-base-url.ts`).
-3. **Public method per operation**
-
-  * Name: camel-cased `operationId`; fallback to `<method><Path>` if missing.
-  * Signature uses **strongly-typed `@angular/common/http`** (`HttpParams`, `HttpHeaders`, etc.).
-  * Return type = `Observable<XXX>`, where `XXX` is the response schema or `void`.
-  * Build URL with template-literal interpolation for path params and `HttpParams` for query params.
-4. **RxJS**
-
-  * End each request with `.pipe(catchError(this.handleError))`.
-  * Provide a private `handleError(error: HttpErrorResponse): Observable<never>` that re-throws after logging.
-5. **Docs**
-
-  * Add JSDoc `/** … */` above each method with `@summary`, `@param`, `@returns`.
-6. **Strict mode** (`"strict": true` in tsconfig). No `any` or `unknown` unless unavoidable.
-7. **No framework extras** – don’t add NgRx, interceptors, guards, etc. beyond the `API_BASE_URL` token.
-
----
-
-### 3️⃣ Shared helpers to create once
-
-* `core/api-base-url.ts`
-
-  ```ts
-  import { InjectionToken } from '@angular/core';
-  export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
-  ```
-* `core/date-util.ts` – ISO ⇆ `Date` helpers if the spec contains `format: date-time`.
-* Optional: `core/pagination.ts` when the spec uses `page`, `size`, `total`.
-
----
-
-### 4️⃣ Output format
-
-Produce code blocks only – **one file per block**:
-
-```ts
-// path/to/file.ts
-/* file content */
-```
-
-*No explanatory prose inside code blocks.*
-Order: shared helpers → tag folders alphabetically → services inside each folder → models.
-
----
-
-### 5️⃣ Quality checklist (self-eval)
-
-* Services compile with **Angular 20**, `@angular/common/http`, `rxjs@8`, TypeScript 5.x strict mode.
-* All path, query, header, and body parameters are mapped and typed.
-* No duplicated model interfaces; reuse imports across services.
-* Base URL injectable; services free of hard-coded host names.
-* Observable error handling centralised.
-* Each group’s public API surface mirrors the OpenAPI **operationIds**.
-
----
-
-### 6️⃣ OpenAPI specification (inserted at run-time)
-
-```json
-{ /* … full openapi.json … */ }
-```
-
----
-
-**➡️ Generate the complete Angular 20 Http Resource layer now.**
+7. **Exports & barrels**
+   * `features/appointments-today/index.ts` re-exports the module and public components.

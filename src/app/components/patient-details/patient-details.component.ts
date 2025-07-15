@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, inject } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -39,7 +39,8 @@ import { PatientSummaryDto } from '@features/patients/patients.models';
   templateUrl: './patient-details.component.html',
   styleUrl: './patient-details.component.css'
 })
-export class PatientDetailsComponent implements OnInit {
+export class PatientDetailsComponent implements OnInit, OnChanges {
+  @Input() patientId: string | null = null;
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private patientsService = inject(PatientsService);
@@ -58,9 +59,12 @@ export class PatientDetailsComponent implements OnInit {
   private searchSubject = new Subject<string>();
 
   ngOnInit(): void {
-    const patientId = this.route.snapshot.params['id'];
-    if (patientId) {
-      this.loadPatient(patientId);
+    // Check if patientId comes from @Input or route
+    const routePatientId = this.route.snapshot.params['id'];
+    const idToLoad = this.patientId || routePatientId;
+    
+    if (idToLoad) {
+      this.loadPatient(idToLoad);
     }
 
     // Set up search with debounce
@@ -88,6 +92,14 @@ export class PatientDetailsComponent implements OnInit {
         this.isSearching.set(false);
       }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['patientId'] && this.patientId) {
+      this.loadPatient(this.patientId);
+    } else if (changes['patientId'] && !this.patientId) {
+      this.patient.set(null);
+    }
   }
 
   loadPatient(id: string): void {

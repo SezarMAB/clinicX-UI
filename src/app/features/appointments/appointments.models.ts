@@ -38,6 +38,8 @@ export interface AppointmentCreateRequest {
 export interface AppointmentCardDto {
   /** Appointment ID */
   appointmentId: string;
+  /** patient ID */
+  patientId: string;
   /** Patient full name */
   patientFullName: string;
   /** Patient public ID */

@@ -16,6 +16,10 @@ export const routes: Routes = [
         loadComponent: () => import('./components/patient-details/patient-details.component').then(m => m.PatientDetailsComponent)
       },
       {
+        path: 'appointments-today',
+        loadComponent: () => import('./features/appointments-today/appointments-today-standalone.component').then(m => m.AppointmentsTodayStandaloneComponent)
+      },
+      {
         path:'**',
         redirectTo: 'patients',
 

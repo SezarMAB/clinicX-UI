@@ -1,0 +1,16 @@
+<div class="appointments-today">
+  <div class="appointments-today__container">
+    <section class="appointments-today__panel">
+      <app-appointments-panel
+        (appointmentSelected)="onAppointmentSelected($event)"
+        [selectedAppointmentId]="selectedAppointmentId()">
+      </app-appointments-panel>
+    </section>
+
+    <section class="appointments-today__details">
+      <app-patient-details
+        [patientId]="selectedPatientId()">
+      </app-patient-details>
+    </section>
+  </div>
+</div>

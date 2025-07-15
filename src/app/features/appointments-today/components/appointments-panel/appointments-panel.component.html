@@ -1,0 +1,54 @@
+<mat-card class="appointments-panel">
+  <mat-card-header class="appointments-panel__header">
+    <mat-card-title>مواعيد اليوم</mat-card-title>
+    <mat-card-subtitle>{{ appointments().length }} موعد</mat-card-subtitle>
+  </mat-card-header>
+  
+  <mat-card-content class="appointments-panel__content">
+    <div *ngIf="isLoading()" class="appointments-panel__loading">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+    
+    <div *ngIf="error()" class="appointments-panel__error">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ error() }}</p>
+    </div>
+    
+    <mat-list *ngIf="!isLoading() && !error()" class="appointments-panel__list">
+      <mat-list-item 
+        *ngFor="let appointment of appointments()"
+        [class.appointments-panel__item--selected]="isSelected(appointment.appointmentId)"
+        [attr.aria-selected]="isSelected(appointment.appointmentId)"
+        (click)="selectAppointment(appointment)"
+        tabindex="0"
+        role="option"
+        class="appointments-panel__item">
+        
+        <div matListItemTitle class="appointments-panel__item-title">
+          <span class="appointments-panel__time">{{ getAppointmentTime(appointment.startTime) }}</span>
+          <span class="appointments-panel__patient">{{ appointment.patientFullName }}</span>
+        </div>
+        
+        <div matListItemLine class="appointments-panel__item-details">
+          <span class="appointments-panel__type">{{ appointment.appointmentType }}</span>
+          <mat-chip 
+            [ngClass]="'appointments-panel__status--' + getStatusClass(appointment.status)"
+            class="appointments-panel__status">
+            {{ appointment.status }}
+          </mat-chip>
+        </div>
+        
+        <div matListItemLine class="appointments-panel__item-meta">
+          <span *ngIf="appointment.practitionerTag">{{ appointment.practitionerTag }}</span>
+        </div>
+        
+        <mat-divider></mat-divider>
+      </mat-list-item>
+      
+      <div *ngIf="appointments().length === 0" class="appointments-panel__empty">
+        <mat-icon>event_busy</mat-icon>
+        <p>لا توجد مواعيد لهذا اليوم</p>
+      </div>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

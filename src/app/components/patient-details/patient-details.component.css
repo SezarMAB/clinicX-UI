@@ -267,7 +267,7 @@ mat-tab-group {
   .patient-content {
     grid-template-columns: 1fr;
   }
-  
+
   .appointments-panel {
     display: none;
   }
@@ -278,11 +278,11 @@ mat-tab-group {
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
+
   .patient-photo {
     margin: 0 auto;
   }
-  
+
   .info-card-container {
     grid-template-columns: 1fr;
   }

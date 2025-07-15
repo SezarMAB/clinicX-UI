@@ -24,7 +24,7 @@ export class AppointmentsTodayStandaloneComponent implements OnInit, OnDestroy {
   selectedAppointmentId = computed(() => this.selectedAppointment()?.appointmentId ?? null);
   
   // Resize properties
-  panelWidth = signal(400); // Default width in pixels
+  panelWidth = signal(314); // Default width in pixels
   private isResizing = false;
   private startX = 0;
   private startWidth = 0;

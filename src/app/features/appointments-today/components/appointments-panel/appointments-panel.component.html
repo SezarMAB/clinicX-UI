@@ -3,56 +3,70 @@
     <mat-card-title>مواعيد اليوم</mat-card-title>
     <mat-card-subtitle>{{ appointments().length }} موعد</mat-card-subtitle>
   </mat-card-header>
-  
+
   <mat-card-content class="appointments-panel__content">
     @if (isLoading()) {
       <div class="appointments-panel__loading">
         <mat-spinner diameter="40"></mat-spinner>
       </div>
     }
-    
+
     @if (error()) {
       <div class="appointments-panel__error">
         <mat-icon>error_outline</mat-icon>
         <p>{{ error() }}</p>
       </div>
     }
-    
+
     @if (!isLoading() && !error()) {
       <mat-list class="appointments-panel__list">
         @for (appointment of appointments(); track appointment.appointmentId) {
-          <mat-list-item 
+          <mat-list-item
             [class.appointments-panel__item--selected]="isSelected(appointment.appointmentId)"
             [attr.aria-selected]="isSelected(appointment.appointmentId)"
             (click)="selectAppointment(appointment)"
             tabindex="0"
             role="option"
             class="appointments-panel__item">
-        
+
         <div matListItemTitle class="appointments-panel__item-title">
-          <span class="appointments-panel__time">{{ getAppointmentTime(appointment.startTime) }}</span>
+          <div class="appointments-panel__item-header">
           <span class="appointments-panel__patient">{{ appointment.patientFullName }}</span>
+            <span class="appointments-panel__patient-id">#{{ appointment.patientPublicId }}</span>
+          </div>
+            <span class="appointments-panel__time">{{ getAppointmentTime(appointment.startTime) }}</span>
         </div>
-        
+
         <div matListItemLine class="appointments-panel__item-details">
           <span class="appointments-panel__type">{{ appointment.appointmentType }}</span>
-          <mat-chip 
+          <mat-chip
             [ngClass]="'appointments-panel__status--' + getStatusClass(appointment.status)"
             class="appointments-panel__status">
             {{ appointment.status }}
           </mat-chip>
         </div>
-        
-        <div matListItemLine class="appointments-panel__item-meta">
-          @if (appointment.practitionerTag) {
-            <span>{{ appointment.practitionerTag }}</span>
-          }
+
+        <div matListItemLine class="appointments-panel__item-contact">
+          <div class="appointments-panel__contact-info">
+            @if (appointment.practitionerTag) {
+              <span class="appointments-panel__practitioner">
+                <mat-icon>medical_services</mat-icon>
+                {{ appointment.practitionerTag }}
+              </span>
+            }
+            @if (appointment.patientPhoneNumber) {
+              <span class="appointments-panel__phone">
+                <mat-icon>phone</mat-icon>
+                {{ appointment.patientPhoneNumber }}
+              </span>
+            }
+          </div>
         </div>
-        
+
           <mat-divider></mat-divider>
         </mat-list-item>
         }
-        
+
         @if (appointments().length === 0) {
           <div class="appointments-panel__empty">
         <mat-icon>event_busy</mat-icon>

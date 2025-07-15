@@ -1,13 +1,16 @@
 .app-wrapper {
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-container {
   display: grid;
   grid-template-columns: 1fr 60px;
-  height: 100vh;
+  flex: 1;
   background-color: var(--bg-light-green);
+  overflow: hidden;
 }
 
 /* Main content area */
@@ -25,7 +28,6 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100vh - 64px); /* Subtract header height */
   min-height: 0; /* Allow flex item to shrink below content size */
 }
 

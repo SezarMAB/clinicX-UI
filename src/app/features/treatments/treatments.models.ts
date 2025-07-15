@@ -1,5 +1,5 @@
-import { Page } from '../../core';
-import { TreatmentStatus } from '../shared.models';
+import { Page } from '@core';
+import { TreatmentStatus } from '@features/shared.models';
 
 /**
  * Request to create a new treatment.

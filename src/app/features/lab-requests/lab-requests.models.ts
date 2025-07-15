@@ -1,5 +1,5 @@
-import { Page } from '../../core';
-import { LabRequestStatus } from '../shared.models';
+import { Page } from '@core';
+import { LabRequestStatus } from '@features/shared.models';
 
 /**
  * Request to create a new lab request.
@@ -24,10 +24,10 @@ export interface LabRequestCreateRequest {
 /**
  * Re-export shared lab request models for convenience.
  */
-export type { LabRequestDto } from '../shared.models';
+export type { LabRequestDto } from '@features/shared.models';
 export { LabRequestStatus };
 
 /**
  * Paginated lab requests response.
  */
-export type PageLabRequestDto = Page<import('../shared.models').LabRequestDto>;
+export type PageLabRequestDto = Page<import('@features/shared.models').LabRequestDto>;

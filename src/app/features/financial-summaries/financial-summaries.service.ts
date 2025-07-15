@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from '../../core';
+import { ApiService } from '@core';
 import { 
   PatientBalanceSummaryDto,
   PatientFinancialSummaryView

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { PatientsService } from './patients.service';
-import { ApiService, API_CONFIG, DEFAULT_API_CONFIG } from '../../core';
+import { ApiService, API_CONFIG, DEFAULT_API_CONFIG } from '@core';
 import { 
   PatientSummaryDto, 
   PatientCreateRequest, 

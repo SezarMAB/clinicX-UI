@@ -1,4 +1,4 @@
-import { Page } from '../../core';
+import { Page } from '@core';
 
 /**
  * Treatment material information.

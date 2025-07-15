@@ -1,4 +1,4 @@
-import { Page } from '../../core';
+import { Page } from '@core';
 
 /**
  * Request to create a new note.
@@ -25,9 +25,9 @@ export interface NoteUpdateRequest {
 /**
  * Re-export shared note models for convenience.
  */
-export type { NoteSummaryDto } from '../shared.models';
+export type { NoteSummaryDto } from '@features/shared.models';
 
 /**
  * Paginated notes response.
  */
-export type PageNoteSummaryDto = Page<import('../shared.models').NoteSummaryDto>;
+export type PageNoteSummaryDto = Page<import('@features/shared.models').NoteSummaryDto>;

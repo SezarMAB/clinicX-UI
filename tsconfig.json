@@ -16,8 +16,12 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "@api": ["app/api"],
-      "@api/*": ["app/api/*"]
+      "@core": ["app/core"],
+      "@core/*": ["app/core/*"],
+      "@features": ["app/features"],
+      "@features/*": ["app/features/*"],
+      "@shared": ["app/shared"],
+      "@shared/*": ["app/shared/*"]
     }
   },
   "angularCompilerOptions": {

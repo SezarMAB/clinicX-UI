@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiService, Page, PaginationParams } from '../../core';
+import { ApiService, Page, PaginationParams } from '@core';
 import { 
   PatientSummaryDto, 
   PatientCreateRequest, 
@@ -15,7 +15,7 @@ import {
   PageLabRequestDto,
   PageFinancialRecordDto,
   PageDocumentSummaryDto
-} from '../shared.models';
+} from '@features/shared.models';
 
 /**
  * Service for managing patient operations.

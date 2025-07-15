@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiService, PaginationParams } from '../../core';
-import { TreatmentLogDto, PageTreatmentLogDto } from '../shared.models';
+import { ApiService, PaginationParams } from '@core';
+import { TreatmentLogDto, PageTreatmentLogDto } from '@features/shared.models';
 import { TreatmentCreateRequest, TreatmentSearchCriteria } from './treatments.models';
 
 /**

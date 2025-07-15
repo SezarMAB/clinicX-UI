@@ -1,5 +1,13 @@
 <div class="appointments-today">
-  <div class="appointments-today__container">
+  <div class="appointments-today__toggle-layout">
+    <button mat-icon-button 
+            (click)="toggleLayout()"
+            [matTooltip]="layoutOrder() === 'panel-first' ? 'تبديل إلى التفاصيل أولاً' : 'تبديل إلى المواعيد أولاً'">
+      <mat-icon>swap_horiz</mat-icon>
+    </button>
+  </div>
+  
+  <div class="appointments-today__container" [class.appointments-today__container--reversed]="layoutOrder() === 'details-first'">
     <section class="appointments-today__panel" [style.width.px]="panelWidth()">
       <app-appointments-panel
         (appointmentSelected)="onAppointmentSelected($event)"

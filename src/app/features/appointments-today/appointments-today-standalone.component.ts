@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppointmentsPanelComponent } from './components/appointments-panel/appointments-panel-standalone.component';
 import { PatientDetailsComponent } from '@components/patient-details/patient-details.component';
@@ -11,7 +13,14 @@ import {AppointmentCardDto} from '@features/appointments';
 @Component({
   selector: 'app-appointments-today',
   standalone: true,
-  imports: [CommonModule, MatIconModule, AppointmentsPanelComponent, PatientDetailsComponent],
+  imports: [
+    CommonModule, 
+    MatIconModule, 
+    MatButtonModule,
+    MatTooltipModule,
+    AppointmentsPanelComponent, 
+    PatientDetailsComponent
+  ],
   templateUrl: './appointments-today.component.html',
   styleUrls: ['./appointments-today.component.scss']
 })
@@ -32,6 +41,8 @@ export class AppointmentsTodayStandaloneComponent implements OnInit, OnDestroy {
   private readonly minPanelWidth = 300;
   private readonly maxPanelWidth = 600;
 
+  // Layout order - 'panel-first' means panel on left/right depending on RTL
+  layoutOrder = signal<'panel-first' | 'details-first'>('panel-first');
 
   ngOnInit(): void {
     // Load saved width from localStorage
@@ -41,6 +52,12 @@ export class AppointmentsTodayStandaloneComponent implements OnInit, OnDestroy {
       if (width >= this.minPanelWidth && width <= this.maxPanelWidth) {
         this.panelWidth.set(width);
       }
+    }
+
+    // Load saved layout order
+    const savedOrder = localStorage.getItem('appointments-layout-order') as 'panel-first' | 'details-first';
+    if (savedOrder) {
+      this.layoutOrder.set(savedOrder);
     }
   }
 
@@ -93,5 +110,13 @@ export class AppointmentsTodayStandaloneComponent implements OnInit, OnDestroy {
       // Save the width to localStorage for persistence
       localStorage.setItem('appointments-panel-width', this.panelWidth().toString());
     }
+  }
+
+  toggleLayout(): void {
+    const newOrder = this.layoutOrder() === 'panel-first' ? 'details-first' : 'panel-first';
+    this.layoutOrder.set(newOrder);
+    
+    // Save to localStorage
+    localStorage.setItem('appointments-layout-order', newOrder);
   }
 }

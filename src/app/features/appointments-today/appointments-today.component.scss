@@ -3,14 +3,36 @@
   padding: 1rem;
   background-color: var(--bg-light-green);
   overflow-x: hidden;
+  position: relative;
+
+  &__toggle-layout {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 100;
+
+    button {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
 
   &__container {
     display: flex;
     gap: 0.1rem;
     height: 100%;
+    transition: all 0.3s ease;
 
     @media (max-width: 767px) {
       flex-direction: column;
+    }
+
+    &--reversed {
+      flex-direction: row-reverse;
     }
   }
 

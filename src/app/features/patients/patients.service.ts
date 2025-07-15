@@ -58,7 +58,9 @@ export class PatientsService {
     params?: PaginationParams
   ): Observable<PagePatientSummaryDto> {
     const httpParams = this.buildPaginationParams(params);
-    return this.api.post<PagePatientSummaryDto>(`${this.basePath}/search`, criteria);
+    // Append params to URL for POST request
+    const url = httpParams.toString() ? `${this.basePath}/search?${httpParams.toString()}` : `${this.basePath}/search`;
+    return this.api.post<PagePatientSummaryDto>(url, criteria);
   }
 
   /**

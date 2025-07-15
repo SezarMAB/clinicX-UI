@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #fafafa; }
+
+/* Global fix for Material table cell alignment */
+.mat-mdc-table .mat-mdc-cell {
+  vertical-align: middle !important;
+}
+
+/* Fix for Arabic text rendering in tables */
+.mat-mdc-table {
+  font-feature-settings: "kern" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

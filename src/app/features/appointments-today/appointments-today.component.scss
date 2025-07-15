@@ -6,17 +6,28 @@
   position: relative;
 
   &__toggle-layout {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
     z-index: 100;
 
     button {
-      background-color: white;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: var(--primary-green);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      width: 56px;
+      height: 56px;
 
       &:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        background-color: #006644;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+      }
+
+      mat-icon {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
       }
     }
   }

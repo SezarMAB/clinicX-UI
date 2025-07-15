@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,10 +9,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { Subject, debounceTime, distinctUntilChanged, switchMap, of } from 'rxjs';
 
 import { PatientsService } from '@features/patients/patients.service';
 import { PatientSummaryDto } from '@features/patients/patients.models';
@@ -23,7 +18,6 @@ import { PatientSummaryDto } from '@features/patients/patients.models';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     MatTabsModule,
     MatIconModule,
     MatButtonModule,
@@ -31,10 +25,7 @@ import { PatientSummaryDto } from '@features/patients/patients.models';
     MatChipsModule,
     MatTooltipModule,
     MatMenuModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule
+    MatProgressSpinnerModule
   ],
   templateUrl: './patient-details.component.html',
   styleUrl: './patient-details.component.css'
@@ -52,12 +43,6 @@ export class PatientDetailsComponent implements OnInit, OnChanges {
   // Mock data for demonstration
   patientTags = ['JSC', 'AMS', 'BND'];
 
-  // Search functionality
-  searchTerm = '';
-  searchResults = signal<PatientSummaryDto[]>([]);
-  isSearching = signal(false);
-  private searchSubject = new Subject<string>();
-
   ngOnInit(): void {
     // Check if patientId comes from @Input or route
     const routePatientId = this.route.snapshot.params['id'];
@@ -66,32 +51,6 @@ export class PatientDetailsComponent implements OnInit, OnChanges {
     if (idToLoad) {
       this.loadPatient(idToLoad);
     }
-
-    // Set up search with debounce
-    this.searchSubject.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(searchTerm => {
-        if (searchTerm.length > 4) {
-          this.isSearching.set(true);
-          return this.patientsService.getAllPatients(searchTerm);
-        } else {
-          this.searchResults.set([]);
-          return of(null);
-        }
-      })
-    ).subscribe({
-      next: (response) => {
-        if (response) {
-          this.searchResults.set(response.content);
-        }
-        this.isSearching.set(false);
-      },
-      error: (error) => {
-        console.error('Error searching patients:', error);
-        this.isSearching.set(false);
-      }
-    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -152,20 +111,4 @@ export class PatientDetailsComponent implements OnInit, OnChanges {
     return `${day}.${month}.${year}`;
   }
 
-  onSearch(searchTerm: string): void {
-    this.searchTerm = searchTerm;
-    this.searchSubject.next(searchTerm);
-  }
-
-  selectPatient(patient: PatientSummaryDto): void {
-    this.searchTerm = '';
-    this.searchResults.set([]);
-    this.router.navigate(['/patient', patient.id]);
-    this.loadPatient(patient.id);
-  }
-
-  displayPatient(patient: PatientSummaryDto): string {
-    if (!patient) return '';
-    return `${patient.fullName} - ${this.formatDate(patient.dateOfBirth)}`;
-  }
 }

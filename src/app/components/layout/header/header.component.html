@@ -1,0 +1,56 @@
+<header class="app-header">
+  <div class="logo">دينتال</div>
+
+  <div class="search-container">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>ابحث عن مريض</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch(searchTerm)"
+        [matAutocomplete]="auto"
+        placeholder="ابحث عن مريض، رقم المريض، تاريخ الميلاد">
+      <mat-icon matPrefix>search</mat-icon>
+      <mat-spinner
+        *ngIf="isSearching()"
+        matSuffix
+        [diameter]="20">
+      </mat-spinner>
+    </mat-form-field>
+
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectPatient($event.option.value)">
+      <mat-option *ngFor="let patient of searchResults()" [value]="patient">
+        <div class="patient-option">
+          <span class="patient-name">{{ patient.fullName }}</span>
+          <span class="patient-dob">{{ formatDate(patient.dateOfBirth) }}</span>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
+  </div>
+
+  <div class="header-actions">
+    <button mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>
+      إضافة جديد
+    </button>
+
+    <button mat-icon-button class="icon-btn">
+      <mat-icon>event_available</mat-icon>
+    </button>
+
+    <button mat-icon-button class="icon-btn">
+      <mat-icon>calendar_today</mat-icon>
+    </button>
+
+    <button mat-icon-button class="icon-btn">
+      <mat-icon>apps</mat-icon>
+    </button>
+
+    <button mat-icon-button class="user-avatar-btn">
+      <div class="user-avatar avatar avatar-male">
+        <mat-icon>person</mat-icon>
+      </div>
+    </button>
+  </div>
+</header>

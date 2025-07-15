@@ -1,0 +1,215 @@
+<div class="patient-list-container">
+  <!-- Header Section -->
+  <div class="header">
+    <h1>Patients</h1>
+    <button mat-raised-button color="primary" (click)="createNewPatient()">
+      <mat-icon>add</mat-icon>
+      New Patient
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search patients</mat-label>
+    <input 
+      matInput 
+      placeholder="Search by name, ID, phone, or email..."
+      (input)="onSearchChange($event)"
+      [disabled]="isLoading()">
+    <mat-icon matPrefix>search</mat-icon>
+    @if (searchTerm()) {
+      <button 
+        matSuffix 
+        mat-icon-button 
+        aria-label="Clear search"
+        (click)="searchTerm.set(''); searchPatients()">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </mat-form-field>
+
+  <!-- Loading Spinner -->
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+
+  <!-- Table Container -->
+  <div class="table-container" [class.loading]="isLoading()">
+    <table mat-table 
+           [dataSource]="dataSource" 
+           matSort 
+           (matSortChange)="onSortChange($event)"
+           class="patient-table">
+
+      <!-- Public ID Column -->
+      <ng-container matColumnDef="publicFacingId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let patient" class="mono">{{ patient.publicFacingId }}</td>
+      </ng-container>
+
+      <!-- Full Name Column -->
+      <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
+        <td mat-cell *matCellDef="let patient" class="name-cell">
+          <strong>{{ patient.fullName }}</strong>
+          @if (patient.hasAlert) {
+            <mat-icon class="alert-icon" matTooltip="Patient has alerts">warning</mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <!-- Date of Birth Column -->
+      <ng-container matColumnDef="dateOfBirth">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of Birth</th>
+        <td mat-cell *matCellDef="let patient">{{ formatDate(patient.dateOfBirth) }}</td>
+      </ng-container>
+
+      <!-- Age Column -->
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Age</th>
+        <td mat-cell *matCellDef="let patient">{{ patient.age }}</td>
+      </ng-container>
+
+      <!-- Gender Column -->
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Gender</th>
+        <td mat-cell *matCellDef="let patient">
+          <div class="gender-cell">
+            <mat-icon>{{ getGenderIcon(patient.gender) }}</mat-icon>
+            <span>{{ patient.gender }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Phone Number Column -->
+      <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef>Phone</th>
+        <td mat-cell *matCellDef="let patient">
+          @if (patient.phoneNumber) {
+            <a href="tel:{{ patient.phoneNumber }}" class="phone-link">
+              <mat-icon>phone</mat-icon>
+              {{ patient.phoneNumber }}
+            </a>
+          }
+        </td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let patient">
+          @if (patient.email) {
+            <a href="mailto:{{ patient.email }}" class="email-link">
+              {{ patient.email }}
+            </a>
+          }
+        </td>
+      </ng-container>
+
+      <!-- Balance Column -->
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
+        <td mat-cell *matCellDef="let patient" 
+            [class.balance-positive]="patient.balance > 0"
+            [class.balance-negative]="patient.balance < 0">
+          {{ formatBalance(patient.balance) }}
+        </td>
+      </ng-container>
+
+      <!-- Has Alert Column -->
+      <ng-container matColumnDef="hasAlert">
+        <th mat-header-cell *matHeaderCellDef>Alerts</th>
+        <td mat-cell *matCellDef="let patient">
+          @if (patient.hasAlert) {
+            <mat-chip color="warn">
+              <mat-icon>notification_important</mat-icon>
+              Alert
+            </mat-chip>
+          }
+        </td>
+      </ng-container>
+
+      <!-- View Details Column -->
+      <ng-container matColumnDef="view">
+        <th mat-header-cell *matHeaderCellDef>View</th>
+        <td mat-cell *matCellDef="let patient">
+          <button mat-icon-button 
+                  color="primary" 
+                  (click)="viewPatient(patient)"
+                  matTooltip="عرض التفاصيل">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let patient">
+          <button mat-icon-button 
+                  [matMenuTriggerFor]="menu" 
+                  aria-label="Patient actions">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="viewPatient(patient)">
+              <mat-icon>visibility</mat-icon>
+              <span>View Details</span>
+            </button>
+            <button mat-menu-item (click)="editPatient(patient)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>calendar_today</mat-icon>
+              <span>Schedule Appointment</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>medical_services</mat-icon>
+              <span>View Treatments</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>attach_money</mat-icon>
+              <span>View Invoices</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <!-- Header and Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row 
+          *matRowDef="let row; columns: displayedColumns;"
+          class="patient-row"
+          [class.has-alert]="row.hasAlert"></tr>
+
+      <!-- No Data Row -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">
+          @if (searchTerm()) {
+            No patients found matching "{{ searchTerm() }}"
+          } @else {
+            No patients found
+          }
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Paginator -->
+  <mat-paginator 
+    [length]="totalElements()"
+    [pageSize]="pageSize()"
+    [pageIndex]="pageIndex()"
+    [pageSizeOptions]="[10, 20, 50, 100]"
+    (page)="onPageChange($event)"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>
+
+<!-- Import Angular Material Menu (required for actions menu) -->
+<ng-template>
+  <mat-menu></mat-menu>
+</ng-template>

@@ -1,0 +1,289 @@
+.patient-details-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--bg-light-green);
+}
+
+/* Header styles */
+.app-header {
+  background-color: var(--bg-white);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 64px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-green);
+  white-space: nowrap;
+}
+
+/* Search container */
+.search-container {
+  flex: 1;
+  max-width: 600px;
+}
+
+.search-field {
+  width: 100%;
+}
+
+.search-field .mat-mdc-form-field-wrapper {
+  margin-bottom: 0;
+}
+
+/* Patient option in dropdown */
+.patient-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 4px 0;
+}
+
+.patient-name {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.patient-dob {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-right: 16px;
+}
+
+/* Header actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  color: var(--text-light);
+}
+
+.icon-btn:hover {
+  color: var(--text-dark);
+}
+
+/* User avatar */
+.user-avatar-btn {
+  padding: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.avatar-male {
+  background-color: #dbeafe;
+  color: #3b82f6;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+}
+
+/* Content body */
+.content-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+}
+
+/* Loading container */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Patient content */
+.patient-content {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Patient details panel */
+.patient-details-panel {
+  background-color: var(--bg-white);
+  overflow-y: auto;
+  padding: 24px;
+}
+
+/* Patient header */
+.patient-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Patient photo */
+.patient-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.avatar {
+  border: 3px solid var(--bg-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-female {
+  background-color: #fce7f3;
+  color: #ec4899;
+}
+
+.avatar-male {
+  background-color: #dbeafe;
+  color: #3b82f6;
+}
+
+.avatar mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+/* Patient summary */
+.patient-summary h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.patient-id {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background-color: #fff3cd;
+}
+
+.patient-id.orange {
+  color: var(--accent-orange);
+  background-color: #fef3c7;
+}
+
+.has-alert {
+  color: var(--accent-orange);
+  cursor: pointer;
+}
+
+.patient-summary p {
+  margin: 4px 0;
+  color: var(--text-dark);
+}
+
+.patient-tags {
+  margin-top: 12px;
+}
+
+.patient-tags mat-chip {
+  font-size: 12px;
+  height: 24px;
+}
+
+/* Info card container */
+.info-card-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Chart container */
+.chart-container {
+  margin-bottom: 24px;
+}
+
+.chart-container mat-card {
+  border: 1px solid var(--border-color);
+}
+
+/* Tabs */
+mat-tab-group {
+  margin-top: 24px;
+}
+
+.tab-content {
+  padding: 24px;
+  min-height: 400px;
+}
+
+/* Tab actions */
+.tab-actions {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 8px;
+}
+
+/* Appointments panel */
+.appointments-panel {
+  background-color: var(--bg-white);
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.appointments-panel mat-card {
+  border: 1px solid var(--border-color);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .patient-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .appointments-panel {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .patient-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .patient-photo {
+    margin: 0 auto;
+  }
+  
+  .info-card-container {
+    grid-template-columns: 1fr;
+  }
+}

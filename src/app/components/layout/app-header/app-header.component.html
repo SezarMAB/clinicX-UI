@@ -1,0 +1,61 @@
+<header class="app-header">
+  <div class="logo">دينتال</div>
+  
+  <div class="search-bar">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input 
+      type="text" 
+      placeholder="ابحث عن مريض، رقم المريض، تاريخ الميلاد، رقم التأمين"
+      [(ngModel)]="searchTerm"
+      (input)="onSearch($event)"
+      class="search-input">
+    <button 
+      *ngIf="searchTerm" 
+      mat-icon-button 
+      (click)="clearSearch()"
+      class="clear-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  
+  <div class="header-actions">
+    <button mat-raised-button color="primary" (click)="addNew()">
+      <mat-icon>add</mat-icon>
+      إضافة جديد
+    </button>
+    
+    <button mat-icon-button class="icon-btn">
+      <mat-icon>event_available</mat-icon>
+    </button>
+    
+    <button mat-icon-button class="icon-btn">
+      <mat-icon>calendar_today</mat-icon>
+    </button>
+    
+    <button mat-icon-button class="icon-btn">
+      <mat-icon>apps</mat-icon>
+    </button>
+    
+    <!-- User avatar -->
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-avatar-btn">
+      <div class="user-avatar avatar avatar-male">
+        <mat-icon>person</mat-icon>
+      </div>
+    </button>
+    
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>account_circle</mat-icon>
+        <span>الملف الشخصي</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>الإعدادات</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>تسجيل الخروج</span>
+      </button>
+    </mat-menu>
+  </div>
+</header>

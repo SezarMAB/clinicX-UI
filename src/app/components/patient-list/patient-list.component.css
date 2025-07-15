@@ -1,0 +1,216 @@
+.patient-list-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Search Field */
+.search-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.search-field .mat-mdc-form-field-wrapper {
+  margin-bottom: 0;
+}
+
+/* Loading Container */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+/* Table Container */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.table-container.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Table Styles */
+.patient-table {
+  width: 100%;
+}
+
+.patient-table th {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #f5f5f5;
+}
+
+/* Fix table cell alignment */
+.patient-table td {
+  vertical-align: middle !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+/* Fix for Arabic text alignment */
+.patient-table td.mat-cell {
+  line-height: 1.5;
+  vertical-align: middle;
+}
+
+.patient-row {
+  transition: background-color 0.2s ease;
+}
+
+.patient-row:hover {
+  background-color: #f5f5f5;
+}
+
+.patient-row.has-alert {
+  background-color: #fff3e0;
+}
+
+.patient-row.has-alert:hover {
+  background-color: #ffe0b2;
+}
+
+/* Cell Styles */
+.mono {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 13px;
+  color: #666;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+}
+
+.name-cell strong {
+  line-height: 1.4;
+  display: inline-block;
+}
+
+.alert-icon {
+  color: #ff9800;
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+.gender-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gender-cell mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  color: #666;
+}
+
+/* Link Styles */
+.phone-link, .email-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #1976d2;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.phone-link:hover, .email-link:hover {
+  color: #1565c0;
+  text-decoration: underline;
+}
+
+.phone-link mat-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
+
+/* Balance Styles */
+.balance-positive {
+  color: #d32f2f;
+  font-weight: 500;
+}
+
+.balance-negative {
+  color: #388e3c;
+  font-weight: 500;
+}
+
+/* No Data Row */
+.no-data {
+  text-align: center;
+  padding: 48px !important;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 16px;
+}
+
+/* Paginator */
+mat-paginator {
+  background: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .patient-list-container {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .patient-table {
+    min-width: 800px;
+  }
+}
+
+/* Material Overrides for RTL support (if needed later) */
+:host-context([dir="rtl"]) {
+  .name-cell,
+  .gender-cell,
+  .phone-link {
+    flex-direction: row-reverse;
+  }
+
+  .header {
+    flex-direction: row-reverse;
+  }
+}

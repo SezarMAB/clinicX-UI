@@ -1,8 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+:root {
+  --bg-dark-green: #0d4b43;
+  --bg-light-green: #e9f5f3;
+  --bg-white: #ffffff;
+  --border-color: #d8e9e7;
+  --primary-green: #008060;
+  --text-dark: #333;
+  --text-light: #6c757d;
+  --text-white: #ffffff;
+  --accent-orange: #f59e0b;
+  --accent-red: #ef4444;
+  --accent-purple: #8b5cf6;
+  --accent-green: #10b981;
+  --font-family: 'Cairo', 'Roboto', sans-serif;
+}
+
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #fafafa; }
+body { 
+  margin: 0; 
+  font-family: var(--font-family); 
+  background-color: var(--bg-light-green);
+  color: var(--text-dark);
+  direction: rtl;
+}
 
 /* Global fix for Material table cell alignment */
 .mat-mdc-table .mat-mdc-cell {
@@ -14,4 +36,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   font-feature-settings: "kern" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* RTL support for Material components */
+.mat-mdc-form-field {
+  text-align: right;
+}
+
+.mat-mdc-paginator {
+  direction: rtl;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

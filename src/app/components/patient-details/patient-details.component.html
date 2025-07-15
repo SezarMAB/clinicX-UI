@@ -1,0 +1,212 @@
+<div class="patient-details-container">
+  <!-- Header with search -->
+  <header class="app-header">
+    <div class="logo">دينتال</div>
+
+    <div class="search-container">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>ابحث عن مريض</mat-label>
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch(searchTerm)"
+          [matAutocomplete]="auto"
+          placeholder="ابحث عن مريض، رقم المريض، تاريخ الميلاد">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-spinner
+          *ngIf="isSearching()"
+          matSuffix
+          [diameter]="20">
+        </mat-spinner>
+      </mat-form-field>
+
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectPatient($event.option.value)">
+        <mat-option *ngFor="let patient of searchResults()" [value]="patient">
+          <div class="patient-option">
+            <span class="patient-name">{{ patient.fullName }}</span>
+            <span class="patient-dob">{{ formatDate(patient.dateOfBirth) }}</span>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+
+    <div class="header-actions">
+      <button mat-raised-button color="primary">
+        <mat-icon>add</mat-icon>
+        إضافة جديد
+      </button>
+
+      <button mat-icon-button class="icon-btn">
+        <mat-icon>event_available</mat-icon>
+      </button>
+
+      <button mat-icon-button class="icon-btn">
+        <mat-icon>calendar_today</mat-icon>
+      </button>
+
+      <button mat-icon-button class="icon-btn">
+        <mat-icon>apps</mat-icon>
+      </button>
+
+      <button mat-icon-button class="user-avatar-btn">
+        <div class="user-avatar avatar avatar-male">
+          <mat-icon>person</mat-icon>
+        </div>
+      </button>
+    </div>
+  </header>
+
+  <!-- Content body -->
+  <div class="content-body">
+    <!-- Loading spinner -->
+    <div *ngIf="isLoading()" class="loading-container">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Patient content -->
+    <div *ngIf="!isLoading() && patient()" class="patient-content">
+      <!-- Patient details panel -->
+      <section class="patient-details-panel">
+        <!-- Patient header -->
+        <div class="patient-header">
+          <!-- Patient avatar -->
+          <div class="patient-photo avatar" [class.avatar-female]="patient()!.gender === 'FEMALE'" [class.avatar-male]="patient()!.gender === 'MALE'">
+            <mat-icon>person</mat-icon>
+          </div>
+
+          <!-- Patient summary -->
+          <div class="patient-summary">
+            <h2>
+              {{ patient()!.fullName }}
+              <span class="patient-id orange">{{ patient()!.publicFacingId }}</span>
+              <mat-icon *ngIf="patient()!.hasAlert" class="has-alert" matTooltip="يوجد تنبيهات">description</mat-icon>
+            </h2>
+            <p>{{ formatDate(patient()!.dateOfBirth) }} ({{ patient()?.age }})</p>
+            <p>(ج) موبايل: {{ patient()!.phoneNumber }}</p>
+            <p>{{ patient()!.insuranceProvider }}</p>
+            <div class="patient-tags">
+              <mat-chip-set>
+                <mat-chip *ngFor="let tag of patientTags">{{ tag }}</mat-chip>
+              </mat-chip-set>
+            </div>
+          </div>
+
+          <!-- Info cards placeholder -->
+          <div class="info-card-container">
+            <!-- Info cards will be added here -->
+          </div>
+        </div>
+
+        <!-- Dental chart placeholder -->
+        <div class="chart-container">
+          <!-- Dental chart component will be added here -->
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>مخطط الأسنان</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <!-- Placeholder for dental chart -->
+              <div style="height: 200px; display: flex; align-items: center; justify-content: center; color: #999;">
+                مخطط الأسنان سيظهر هنا
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Tabs -->
+        <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange($event)">
+          <mat-tab label="البيانات الأساسية">
+            <ng-template matTabContent>
+              <!-- Basic info content -->
+              <div class="tab-content">
+                <p>محتوى البيانات الأساسية</p>
+              </div>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab label="سجل الزيارات">
+            <ng-template matTabContent>
+              <!-- Treatment log content -->
+              <div class="tab-content">
+                <p>محتوى سجل الزيارات</p>
+              </div>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab label="مستندات العلاج">
+            <ng-template matTabContent>
+              <!-- Documents content -->
+              <div class="tab-content">
+                <p>محتوى المستندات</p>
+              </div>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab label="ورقة العلاج">
+            <ng-template matTabContent>
+              <!-- Treatment form content -->
+              <div class="tab-content">
+                <p>محتوى ورقة العلاج</p>
+              </div>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab label="المختبر">
+            <ng-template matTabContent>
+              <!-- Lab content -->
+              <div class="tab-content">
+                <p>محتوى المختبر</p>
+              </div>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab label="المالية">
+            <ng-template matTabContent>
+              <!-- Finance content -->
+              <div class="tab-content">
+                <p>محتوى المالية</p>
+              </div>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+
+        <!-- Tab actions -->
+        <div class="tab-actions">
+          <button mat-icon-button matTooltip="طباعة">
+            <mat-icon>print</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="إضافة">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="moreMenu">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+          <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>edit</mat-icon>
+              <span>تعديل</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>share</mat-icon>
+              <span>مشاركة</span>
+            </button>
+          </mat-menu>
+        </div>
+      </section>
+
+      <!-- Appointments panel -->
+      <aside class="appointments-panel">
+        <!-- Appointments panel component will be added here -->
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>المواعيد</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>لوحة المواعيد ستظهر هنا</p>
+          </mat-card-content>
+        </mat-card>
+      </aside>
+    </div>
+  </div>
+</div>

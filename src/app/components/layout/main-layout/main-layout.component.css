@@ -17,6 +17,7 @@
   flex-direction: column;
   overflow: hidden;
   background-color: var(--bg-light-green);
+  min-width: 0; /* Prevent grid blowout */
 }
 
 /* Page content */

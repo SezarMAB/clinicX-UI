@@ -1,7 +1,7 @@
 .patient-list-container {
   padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+  height: 100%;
+  overflow-x: hidden;
 }
 
 /* Header Section */
@@ -23,6 +23,7 @@
 .search-field {
   width: 100%;
   margin-bottom: 16px;
+  max-width: 100%;
 }
 
 .search-field .mat-mdc-form-field-wrapper {
@@ -195,10 +196,6 @@ mat-paginator {
 
   .table-container {
     overflow-x: auto;
-  }
-
-  .patient-table {
-    min-width: 800px;
   }
 }
 

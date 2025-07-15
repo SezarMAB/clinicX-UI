@@ -130,6 +130,8 @@ export interface PatientSearchCriteria {
   hasTreatments?: boolean;
   /** Filter by city or address */
   address?: string;
+  /** Filter by postal code */
+  isBalanceNegative?: boolean;
 }
 
 /**

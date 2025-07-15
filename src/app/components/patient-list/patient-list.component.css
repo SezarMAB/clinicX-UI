@@ -264,12 +264,12 @@ mat-divider {
 
 /* Balance Styles */
 .balance-positive {
-  color: #d32f2f;
+  color: #388e3c;
   font-weight: 500;
 }
 
 .balance-negative {
-  color: #388e3c;
+  color: #d32f2f;
   font-weight: 500;
 }
 

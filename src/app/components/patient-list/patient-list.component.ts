@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, signal, computed, effect } from '@angular/core';
+import { Component, OnInit, ViewChild, signal, computed, effect, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -84,6 +84,7 @@ export class PatientListComponent implements OnInit {
   showAdvancedFilters = signal(false);
   balanceFrom = signal<number | null>(null);
   balanceTo = signal<number | null>(null);
+  isBalanceNegative = signal<boolean | null>(null);
   selectedGender = signal<string>('');
   isActive = signal<boolean>(false);
   hasMedicalNotes = signal<boolean | null>(null);
@@ -109,7 +110,8 @@ export class PatientListComponent implements OnInit {
 
   constructor(
     private patientsService: PatientsService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -145,6 +147,7 @@ export class PatientListComponent implements OnInit {
       searchTerm: this.searchTerm() || undefined,
       balanceFrom: this.balanceFrom() ?? undefined,
       balanceTo: this.balanceTo() ?? undefined,
+      isBalanceNegative: this.isBalanceNegative() ?? undefined,
       gender: this.selectedGender() || undefined,
       isActive: this.isActive() || undefined,
       hasMedicalNotes: this.hasMedicalNotes() ?? undefined,
@@ -257,10 +260,26 @@ export class PatientListComponent implements OnInit {
   }
 
   /**
+   * Handles tri-state checkbox click
+   */
+  toggleTriState(signal: any): void {
+    const currentValue = signal();
+    if (currentValue === null) {
+      signal.set(true);
+    } else if (currentValue === true) {
+      signal.set(false);
+    } else {
+      signal.set(null);
+    }
+  }
+
+  /**
    * Toggles advanced filters visibility
    */
   toggleAdvancedFilters(): void {
     this.showAdvancedFilters.set(!this.showAdvancedFilters());
+    // Trigger change detection to ensure UI updates
+    this.cdr.detectChanges();
   }
 
   /**
@@ -269,6 +288,7 @@ export class PatientListComponent implements OnInit {
   clearFilters(): void {
     this.balanceFrom.set(null);
     this.balanceTo.set(null);
+    this.isBalanceNegative.set(null);
     this.selectedGender.set('');
     this.isActive.set(false);
     this.hasMedicalNotes.set(null);
@@ -295,6 +315,7 @@ export class PatientListComponent implements OnInit {
     let count = 0;
     if (this.balanceFrom() !== null) count++;
     if (this.balanceTo() !== null) count++;
+    if (this.isBalanceNegative() !== null) count++;
     if (this.selectedGender()) count++;
     if (this.isActive()) count++;
     if (this.hasMedicalNotes() !== null) count++;

@@ -16,7 +16,7 @@
         <!-- Patient header -->
         <div class="patient-header">
           <!-- Patient avatar -->
-          <div class="patient-photo avatar" [class.avatar-female]="patient()!.gender === 'FEMALE'" [class.avatar-male]="patient()!.gender === 'MALE'">
+          <div class="patient-photo avatar" [attr.data-gender]="patient()!.gender?.toLowerCase()">
             <mat-icon>person</mat-icon>
           </div>
 

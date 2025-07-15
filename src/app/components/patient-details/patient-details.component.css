@@ -63,14 +63,14 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.avatar-female {
-  background-color: #fce7f3;
-  color: #ec4899;
+.avatar[data-gender="female"] {
+  background-color: #fce4ec;
+  color: #c2185b;
 }
 
-.avatar-male {
-  background-color: #dbeafe;
-  color: #3b82f6;
+.avatar[data-gender="male"] {
+  background-color: #e3f2fd;
+  color: #1976d2;
 }
 
 .avatar mat-icon {
